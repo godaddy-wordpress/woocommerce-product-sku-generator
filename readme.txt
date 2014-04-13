@@ -49,6 +49,7 @@ This action will also automatically generate the SKUs for product variations if 
 1. Upload the entire 'woocommerce-product-sku-generator' folder to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to **WooCommerce &gt; Settings &gt; Products** and scroll down to 'Product Data'. Here you have the option to generate SKUs for only simple / parent products, or to enable SKU generation for product variations as well.
+4. View [documentation on the product page](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for more help if needed.
 
 **NOTE that** any time a product is updated, its SKU will be generated, so this may override old SKUs if you update products. This plugin is meant for complete SKU automation.
 
