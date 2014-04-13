@@ -27,7 +27,7 @@
  * Plugin Description 
  *
  * Generate a SKU for new products that is equal to the product slug (simple products)
- * Append attributes for a product variation to this if the product is variable
+ * Optionally append attributes for a product variation to this if the product is variable
  * For a variable product whose parent is 'wordpress-tee-shirt', the SKU will use the parent slug, then append the attributes for each variation. If the shirt has a small variation in white, the SKU will be 'wordpress-tee-shirt-small-white'.
  * SKUs should be created when a product is saved or updated.
  *
@@ -35,18 +35,18 @@
  * @TODO v2.0: Option for product slugs as SKU or incrementing numerical value
  */
 
-function wc_find_update_product( $post_id, $post ) {
+function wc_sku_generator_update_product( $post_id, $post ) {
 
 	$product = get_product( $post_id );
 	
-	wc_update_sku( $product );
+	wc_sku_generator_update_sku( $product );
 	
 }
-add_action( 'woocommerce_process_product_meta', 'wc_find_update_product', 100, 2 );
+add_action( 'woocommerce_process_product_meta', 'wc_sku_generator_update_product', 100, 2 );
 
-function wc_update_sku( $product ) {
+function wc_sku_generator_update_sku( $product ) {
 	
-	$generate_variation_skus = get_option( 'wc_variation_sku_generation' );
+	$generate_variation_skus = get_option( 'wc_sku_generator_select' );
 	
 	$sku = $product->get_post_data()->post_name;
 	
@@ -77,17 +77,17 @@ function wc_update_sku( $product ) {
 	}
 
 }
-add_action( 'woocommerce_product_bulk_edit_save', 'wc_update_sku');
+add_action( 'woocommerce_product_bulk_edit_save', 'wc_sku_generator_update_sku');
 
-function wc_disable_sku_field() {
+function wc_sku_generator_disable_sku_field() {
 
 	wc_enqueue_js("$('.woocommerce_options_panel input#_sku').attr('disabled', true);");
 
 }
-add_action( 'admin_init', 'wc_disable_sku_field');
+add_action( 'admin_init', 'wc_sku_generator_disable_sku_field');
 
-// Add SKU generator Settings > Products page at the end of the 'Product Data' section
-function add_sku_generator_settings( $settings ) {
+// Add SKU generator to Settings > Products page at the end of the 'Product Data' section
+function wc_sku_generator_add_settings( $settings ) {
 	
 	$updated_settings = array();
 	
@@ -100,11 +100,11 @@ function add_sku_generator_settings( $settings ) {
 			$updated_settings[] = array(
 					'title' 	=> __( 'Generate SKUs for:', 'woocommerce' ),
 					'desc' 		=> '<br/>' . __( 'Should product variations get unique SKUs, or only simple and parent products?', 'woocommerce' ),
-					'id' 		=> 'wc_variation_sku_generation',
+					'id' 		=> 'wc_sku_generator_select',
 					'type' 		=> 'select',
 					'options' => array(
 						'all'  			=> __( 'All Products including Variations', 'woocommerce' ),
-						'simple' => __( 'Only for Simple and Parent Products', 'woocommerce' ),
+						'simple' => __( 'Only for Simple or Parent Products', 'woocommerce' ),
 						),
 					'default'	=> 'all',
 					'css' 		=> 'min-width:300px;',
@@ -118,4 +118,4 @@ function add_sku_generator_settings( $settings ) {
 		return $updated_settings;
 	
 }
-add_filter( 'woocommerce_product_settings', 'add_sku_generator_settings' );
+add_filter( 'woocommerce_product_settings', 'wc_sku_generator_add_settings' );
