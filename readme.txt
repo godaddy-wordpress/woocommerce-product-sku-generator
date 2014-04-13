@@ -30,7 +30,7 @@ Regardless of which option is selected, product SKUs will be generated any time 
 = Variable Products =
 You can enable SKU creation for variable products under **WooCommerce &gt; Settings &gt; Products** as well. Should you choose to create unique SKUs for each product variation, the attributes for that variation will be appended to the product slug.
 
-For a variable product whose parent is 'awesome-tee-shirt', the SKU will first use the parent slug, then append the attributes for each variation. For example, if the shirt has a small variation in white, the SKU for that variation will be 'wordpress-tee-shirt-small-white'.
+For a variable product whose parent is 'awesome-tee-shirt', the SKU will first use the parent slug, then append the attributes for each variation. For example, if the shirt has a small variation in white, the SKU for that variation will be 'awesome-tee-shirt-small-white'.
 
 If you disable this option, you will be able to manually create your own variation SKUs, as these will not be overridden by saving or updating a product. The parent SKU will be automatically set no matter which option is enabled.
 
@@ -40,7 +40,7 @@ You can bulk add SKUs to products that you've created prior to installing this p
 This action will also automatically generate the SKUs for product variations if you have them enabled.
 
 = More Details =
- - See the [product page](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for full details
+ - See the [product page](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for full details and documentation
  - View more of SkyVerge's [free WooCommerce extensions](http://profiles.wordpress.org/skyverge/)
  - View all [SkyVerge WooCommerce extensions](http://www.skyverge.com/shop/)
 
@@ -50,9 +50,19 @@ This action will also automatically generate the SKUs for product variations if 
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to **WooCommerce &gt; Settings &gt; Products** and scroll down to 'Product Data'. Here you have the option to generate SKUs for only simple / parent products, or to enable SKU generation for product variations as well.
 
-== Frequently Asked Questions ==
-= This is handy! Can I contribute? =
+**NOTE that** any time a product is updated, its SKU will be generated, so this may override old SKUs if you update products. This plugin is meant for complete SKU automation.
 
+== Frequently Asked Questions ==
+= What happens to my old SKUs? =
+This plugin generates SKUs any time products are created or updated. Your old SKUs will be overridden if you use it - **only** use the plugin if you don't want to manage SKUs yourself.
+
+= What happens to variation SKUs? =
+All variation SKUs can be overridden, regardless of whether you're automatically generating them or not.
+
+= How do I add SKUs to old products? =
+Select the products you'd like to generate SKUs for under **Products**. Go to the bulk actions in the top left and click "Edit", then apply. All you need to do is hit "Update" to save these products, and SKUs will automatically be added.
+
+= This is handy! Can I contribute? =
 Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/woocommerce-product-sku-generator/) and submit a pull request :)
 
 = Do you plan on adding anything to this plugin? =
