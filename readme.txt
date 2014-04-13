@@ -6,6 +6,7 @@ Requires at least: 3.5
 Tested up to: 3.8.2
 Requires WooCommerce at least: 2.0
 Tested WooCommerce up to: 2.1.7
+Stable Tag: 0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -79,5 +80,5 @@ We would love some help in adding these features if you're interested in contrib
 3. Automatic variation SKUs based on attributes (if enabled)
 
 == Changelog ==
-2014.04.15
+= 2014.04.15 - version 0.1 =
  * Initial Release
