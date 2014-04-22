@@ -3,7 +3,7 @@ Contributors: beka.rice, skyverge
 Tags: woocommerce, sku
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 3.5
-Tested up to: 3.8.2
+Tested up to: 3.9
 Requires WooCommerce at least: 2.0
 Tested WooCommerce up to: 2.1.7
 Stable Tag: 0.1
@@ -68,11 +68,7 @@ Select the products you'd like to generate SKUs for under **Products**. Go to th
 Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/woocommerce-product-sku-generator/) and submit a pull request :)
 
 = Do you plan on adding anything to this plugin? =
-Here are a couple of features we plan on adding in the future, but have no ETA for:
- 1. Allow manual override for simple / parent product SKUs
- 2. Option to automatically create numbered SKU rather than using product slugs
- 
-We would love some help in adding these features if you're interested in contributing!
+If demand for this is high, we may add features this plugin or release a pro version (depending on complexity). Have something you think would be a good addition? [Get in touch](http://www.skyverge.com/contact?form_type=general) to give us your feedback or vote for features!
 
 == Screenshots ==
 1. Plugin Settings
