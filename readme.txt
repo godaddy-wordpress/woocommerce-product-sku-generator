@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@s
 Requires at least: 3.5
 Tested up to: 3.9
 Requires WooCommerce at least: 2.0
-Tested WooCommerce up to: 2.1.7
+Tested WooCommerce up to: 2.1-bleeding
 Stable Tag: 0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
