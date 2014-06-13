@@ -3,10 +3,10 @@ Contributors: beka.rice, skyverge
 Tags: woocommerce, sku
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 3.5
-Tested up to: 3.9
+Tested up to: 3.9.1
 Requires WooCommerce at least: 2.0
 Tested WooCommerce up to: 2.1-bleeding
-Stable Tag: 0.1
+Stable Tag: 1.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,6 +17,8 @@ Automatically generate WooCommerce product SKUs from the product slug and variat
 Generate a descriptive SKU for products (when the product is published or updated) that uses the product slug. If the product is a variable product, this plugin can append attributes for each variation to the SKU to differentiate between them.
 
 **IMPORTANT:** The SKU field will be disabled for simple products and parent products when you install this plugin so that it can't be edited. Your own SKUs previously assigned to products will be overridden if you update a product, and they will change if you change your product slug. **ONLY** use this plugin if you want to automatically create all SKUs in your shop, or do not need to override them with some of your own.
+
+You can also selectively enable and disable the plugin if you don't want to override SKUs when saving products. You can also [view product documentation](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for help.
 
 = Features =
  - automatically generate SKUs when a product is published or updated using the product slug
@@ -33,7 +35,7 @@ You can enable SKU creation for variable products under **WooCommerce &gt; Setti
 
 For a variable product whose parent is 'awesome-tee-shirt', the SKU will first use the parent slug, then append the attributes for each variation. For example, if the shirt has a small variation in white, the SKU for that variation will be 'awesome-tee-shirt-small-white'.
 
-If you disable this option, you will be able to manually create your own variation SKUs, as these will not be overridden by saving or updating a product. The parent SKU will be automatically set no matter which option is enabled.
+If you **disable this option**, you will be able to manually create your own variation SKUs, as these will not be overridden by saving or updating a product. The parent SKU will be automatically set no matter which option is enabled.
 
 = Bulk Updating =
 You can bulk add SKUs to products that you've created prior to installing this plugin. If you select the products you want to update, then bulk edit them, all you have to do is hit "Update". When the products are saved, SKUs will be generated for all products.
@@ -58,6 +60,8 @@ This action will also automatically generate the SKUs for product variations if 
 = What happens to my old SKUs? =
 This plugin generates SKUs any time products are created or updated. Your old SKUs will be overridden if you use it - **only** use the plugin if you don't want to manage SKUs yourself.
 
+You can also selectively enable and disable the plugin if you don't want to override SKUs when saving products.
+
 = What happens to variation SKUs? =
 All variation SKUs can be overridden, regardless of whether you're automatically generating them or not.
 
@@ -67,14 +71,15 @@ Select the products you'd like to generate SKUs for under **Products**. Go to th
 = This is handy! Can I contribute? =
 Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/woocommerce-product-sku-generator/) and submit a pull request :)
 
-= Do you plan on adding anything to this plugin? =
-If demand for this is high, we may add features this plugin or release a pro version (depending on complexity). Have something you think would be a good addition? [Get in touch](http://www.skyverge.com/contact?form_type=general) to give us your feedback or vote for features!
-
 == Screenshots ==
 1. Plugin Settings
 2. Automatic SKU generation upon publish / update
 3. Automatic variation SKUs based on attributes (if enabled)
 
 == Changelog ==
+= 2014.06.13 - version 1.0.1 =
+ * Re-versioned + incremented for bug fix
+ * Fix: javascript issue during WooCommerce update
+ 
 = 2014.04.15 - version 0.1 =
  * Initial Release
