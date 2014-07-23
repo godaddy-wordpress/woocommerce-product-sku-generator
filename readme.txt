@@ -6,7 +6,7 @@ Requires at least: 3.8
 Tested up to: 3.9.1
 Requires WooCommerce at least: 2.1
 Tested WooCommerce up to: 2.2-beta
-Stable Tag: 1.0.1
+Stable Tag: 1.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -20,7 +20,7 @@ Generate a descriptive SKU for products (when the product is published or update
 
 > **IMPORTANT:** The SKU field will be disabled for simple products and parent products when you install this plugin so that it can't be edited. Your own SKUs previously assigned to products will be overridden if you update a product, and they will change if you change your product slug. Be sure you want to complete automate SKUs if you leave this enabled all of the time.
 
-You can also selectively enable and disable the plugin if you don't want to override SKUs when saving products. You can [view product documentation](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for help.
+You can also selectively enable and disable the plugin if you don't want to override existing SKUs when saving products. You can [view product documentation](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for help.
 
 = Features =
  - automatically generate SKUs when a product is published or updated using the product slug
@@ -80,6 +80,9 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 3. Automatic variation SKUs based on attributes (if enabled)
 
 == Changelog ==
+= 2014.07.23 - version 1.0.2 =
+ * Fix: Changed SKU disable method to remove javascript
+
 = 2014.06.13 - version 1.0.1 =
  * Re-versioned + incremented for bug fix
  * Fix: javascript issue during WooCommerce update
