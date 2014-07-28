@@ -25,11 +25,11 @@
  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
- * Plugin Description
- *
+* Plugin Description
+         *
  * Generate a SKU for new products that is equal to the product slug (simple products)
  * Optionally append attributes for a product variation to this if the product is variable
- * For a variable product whose parent is 'wordpress-tee-shirt', the SKU will use the parent slug, then append the attributes for each variation. If the shirt has a small variation in white, the SKU will be 'wordpress-tee-shirt-small-white'.
+                                                                                  * For a variable product whose parent is 'wordpress-tee-shirt', the SKU will use the parent slug, then append the attributes for each variation. If the shirt has a small variation in white, the SKU will be 'wordpress-tee-shirt-small-white'.
  * SKUs should be created when a product is saved or updated.
  *
  */
