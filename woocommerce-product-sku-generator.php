@@ -5,7 +5,7 @@
  * Description: Automatically generate SKUs for products using the product slug and (optionally) variation attributes
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 1.0.2
+ * Version: 1.1
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
@@ -25,17 +25,21 @@
  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
-* Plugin Description
-         *
- * Generate a SKU for new products that is equal to the product slug (simple products)
- * Optionally append attributes for a product variation to this if the product is variable
-                                                                                  * For a variable product whose parent is 'wordpress-tee-shirt', the SKU will use the parent slug, then append the attributes for each variation. If the shirt has a small variation in white, the SKU will be 'wordpress-tee-shirt-small-white'.
- * SKUs should be created when a product is saved or updated.
+ * Plugin Description
  *
+ * Generate a SKU for new products that is equal to the product slug (simple products).
+ * Optionally append attributes for a product variation to this if the product is variable.
+ * Or, set a SKU for a parent product and optionally append attributes to this for variation SKUs.
+ *
+ * For example, if parent SKUs are generated, a product with the slug 'wp-tee-shirt'
+ * will have a SKU of 'wp-tee-shirt'. If variation SKUs are also generated, this SKU will
+ * be used, and attributes will be appended. For a white tee shirt in small, the SKU will
+ * be 'wp-tee-shirt-small-white'. If only variation SKUs are generated, then the parent SKU
+ * will be set and used, and attributes will be appended to it.
  */
 
 /**
- * Generate a product SKU from the product slug
+ * Update product SKUs using the generated SKU
  *
  * @since 1.0
  */
@@ -50,20 +54,19 @@ add_action( 'woocommerce_process_product_meta', 'wc_sku_generator_update_product
 
 
 /**
- * Update product SKUs for parent products or all products (inc variations) depending on settings
+ * Generate a product SKU from the product slug and/or variation attributes
  *
  * @since 1.0
  */
 function wc_sku_generator_update_sku( $product ) {
 
-	$generate_variation_skus = get_option( 'wc_sku_generator_select' );
-
-	$sku = $product->get_post_data()->post_name;
+	$generate_skus = get_option( 'wc_sku_generator_select' );
 
 	// Only generate SKUs for product variations if enabled
-	if( 'all' == $generate_variation_skus ) {
+	if ( 'all' == $generate_skus ) {
+		$sku = $product->get_post_data()->post_name;
 
-		if( $product->product_type == 'variable' ) {
+		if ( $product->is_type( 'variable' ) ) {
 
 			foreach( $product->get_available_variations() as $variation ) {
 
@@ -81,9 +84,28 @@ function wc_sku_generator_update_sku( $product ) {
 			update_post_meta( $product->id, '_sku', $sku );
 		}
 
-	} else {
+	} elseif ( 'simple' == $generate_skus ) {
+		$sku = $product->get_post_data()->post_name;
 
 		update_post_meta( $product->id, '_sku', $sku );
+
+	} else {
+		$sku = $product->get_sku();
+
+		if ( $product->is_type( 'variable' ) ) {
+
+			foreach ( $product->get_available_variations() as $variation ) {
+
+				$variation_sku = implode( $variation['attributes'], '-' );
+				$variation_sku = str_replace( 'attribute_', '', $variation_sku );
+
+				update_post_meta( $variation['variation_id'], '_sku', $sku . '-' . $variation_sku );
+
+			}
+
+			update_post_meta( $product->id, '_sku', $sku );
+
+		}
 	}
 
 }
@@ -91,29 +113,30 @@ add_action( 'woocommerce_product_bulk_edit_save', 'wc_sku_generator_update_sku')
 
 
 /**
- * Disable SKUs temporarily so we can create our own label
+ * Only disable SKU field if parent SKUs are being generated
  *
  * @since 1.0.2
  */
-function wc_sku_generator_disable_sku_input() {
-	add_filter( 'wc_product_sku_enabled', '__return_false' );
+$sku_settings = get_option( 'wc_sku_generator_select' );
+
+if ( $sku_settings !== 'variations' ) {
+
+	//Disable SKUs temporarily so we can create our own label
+	function wc_sku_generator_disable_sku_input() {
+		add_filter( 'wc_product_sku_enabled', '__return_false' );
+	}
+	add_action( 'woocommerce_product_write_panel_tabs', 'wc_sku_generator_disable_sku_input' );
+
+	//Create a custom SKU label for Product Data
+	function wc_sku_generator_create_sku_label() {
+		global $thepostid;
+
+		?><p class="form-field"><label><?php esc_html_e( 'SKU', 'woocommerce' ); ?></label><span><?php echo esc_html( get_post_meta( $thepostid, '_sku', true ) ); ?></span></p><?php
+
+		add_filter( 'wc_product_sku_enabled', '__return_true' );
+	}
+	add_action( 'woocommerce_product_options_sku', 'wc_sku_generator_create_sku_label' );
 }
-add_action( 'woocommerce_product_write_panel_tabs', 'wc_sku_generator_disable_sku_input' );
-
-
-/**
- * Create a custom SKU label for Product Data
- *
- * @since 1.0.2
- */
-function wc_sku_generator_create_sku_label() {
-	global $thepostid;
-
-	?><p class="form-field"><label><?php esc_html_e( 'SKU', 'woocommerce' ); ?></label><span><?php echo esc_html( get_post_meta( $thepostid, '_sku', true ) ); ?></span></p><?php
-
-	add_filter( 'wc_product_sku_enabled', '__return_true' );
-}
-add_action( 'woocommerce_product_options_sku', 'wc_sku_generator_create_sku_label' );
 
 
 /**
@@ -132,18 +155,19 @@ function wc_sku_generator_add_settings( $settings ) {
 		if ( isset( $setting['id'] ) && 'woocommerce_review_rating_verification_required' === $setting['id'] ) {
 
 			$updated_settings[] = array(
-					'title' 	=> __( 'Generate SKUs for:', 'woocommerce' ),
-					'desc' 		=> '<br/>' . __( 'Should product variations get unique SKUs, or only simple and parent products?', 'woocommerce' ),
-					'id' 		=> 'wc_sku_generator_select',
-					'type' 		=> 'select',
-					'options' => array(
-						'all'  			=> __( 'All Products including Variations', 'woocommerce' ),
-						'simple' => __( 'Only for Simple or Parent Products', 'woocommerce' ),
-						),
-					'default'	=> 'all',
-					'css' 		=> 'min-width:300px;',
-					'desc_tip'	=>  __('Parent product SKUs for variable products will always be assigned, but you have the option to create your own variation SKUs.', 'woocommerce' ),
-
+				'title'    => __( 'Generate SKUs for:', 'woocommerce' ),
+				'desc'     => '<br/>' . __( 'Should SKUs be generated for simple/parent products only, variations only, or both?', 'woocommerce' ),
+				'id'       => 'wc_sku_generator_select',
+				'type'     => 'select',
+				'options'  => array(
+					'all'        => __( 'Both parent products and variations', 'woocommerce' ),
+					'simple'     => __( 'Only for simple or parent products', 'woocommerce' ),
+					'variations' => __( 'Only for variations of the product', 'woocommerce' ),
+				),
+				'default'  => 'all',
+				'class'    => 'chosen_select',
+				'css'      => 'min-width:300px;',
+				'desc_tip' => __( 'Choosing "Only variations" will allow you to set a parent SKU. The SKU field is disabled otherwise.', 'woocommerce' ),
 			);
 
 		}
