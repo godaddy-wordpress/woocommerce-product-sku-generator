@@ -26,6 +26,7 @@ You can also selectively enable and disable the plugin if you don't want to over
 
 = Features =
 This plugin provides options to:
+
  - automatically generate simple / parent product SKUs when the product is published or updated using the product slug
  - generate SKUs for product variations using the parent SKU + variation attributes
  - generate both the parent and variation SKUs automatically
