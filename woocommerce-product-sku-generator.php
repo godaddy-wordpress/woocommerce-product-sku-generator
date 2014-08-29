@@ -5,7 +5,7 @@
  * Description: Automatically generate SKUs for products using the product slug and (optionally) variation attributes
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 1.1
+ * Version: 1.1.1
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
@@ -60,7 +60,7 @@ add_action( 'woocommerce_process_product_meta', 'wc_sku_generator_update_product
  */
 function wc_sku_generator_update_sku( $product ) {
 
-	$generate_skus = get_option( 'wc_sku_generator_select' );
+	$generate_skus = get_option( 'wc_sku_generator_select', 'all' );
 
 	// Only generate SKUs for product variations if enabled
 	if ( 'all' == $generate_skus ) {
@@ -117,7 +117,7 @@ add_action( 'woocommerce_product_bulk_edit_save', 'wc_sku_generator_update_sku')
  *
  * @since 1.0.2
  */
-$sku_settings = get_option( 'wc_sku_generator_select' );
+$sku_settings = get_option( 'wc_sku_generator_select', 'all' );
 
 if ( $sku_settings !== 'variations' ) {
 

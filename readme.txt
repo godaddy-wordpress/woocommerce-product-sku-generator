@@ -3,10 +3,10 @@ Contributors: beka.rice, skyverge
 Tags: woocommerce, sku, product sku
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 3.8
-Tested up to: 3.9.1
+Tested up to: 4.0
 Requires WooCommerce at least: 2.1
-Tested WooCommerce up to: 2.2-beta
-Stable Tag: 1.1
+Tested WooCommerce up to: 2.2
+Stable Tag: 1.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ Automatically generate WooCommerce product SKUs from the product slug and/or var
 
 == Description ==
 
-> **Requires: WooCommerce 2.1+**
+> **Requires: WooCommerce 2.1+**, Compatible with WooCommerce 2.2
 
 Automatically generate a SKU for parent / simple products, variations, or both when the product is published or updated. Generated SKUs for parent / simple products will use the product slug for the SKU.
 
@@ -88,6 +88,9 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 4. Variation SKU generated when you set the parent SKU (if you only generate variation SKUs)
 
 == Changelog ==
+= 2014.08.29 - version 1.1.1 =
+ * Fix: issue with default option being selected
+
 = 2014.08.12 - version 1.1 =
  * New: Option to generate only variation SKUs automatically
 
