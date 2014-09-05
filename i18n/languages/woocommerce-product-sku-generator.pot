@@ -1,0 +1,68 @@
+# Copyright (C) 2014 SkyVerge
+# This file is distributed under the GNU General Public License v3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Product SKU Generator 1.1.1\n"
+"Report-Msgid-Bugs-To: "
+"https://github.com/skyverge/woocommerce-product-sku-generator/issues\n"
+"POT-Creation-Date: 2014-09-05 22:43:01+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: woocommerce-product-sku-generator.php:134
+msgid "SKU"
+msgstr ""
+
+#: woocommerce-product-sku-generator.php:158
+msgid "Generate SKUs for:"
+msgstr ""
+
+#: woocommerce-product-sku-generator.php:159
+msgid ""
+"Should SKUs be generated for simple/parent products only, variations only, "
+"or both?"
+msgstr ""
+
+#: woocommerce-product-sku-generator.php:163
+msgid "Both parent products and variations"
+msgstr ""
+
+#: woocommerce-product-sku-generator.php:164
+msgid "Only for simple or parent products"
+msgstr ""
+
+#: woocommerce-product-sku-generator.php:165
+msgid "Only for variations of the product"
+msgstr ""
+
+#: woocommerce-product-sku-generator.php:170
+msgid ""
+"Choosing \"Only variations\" will allow you to set a parent SKU. The SKU "
+"field is disabled otherwise."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Product SKU Generator"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.skyverge.com/product/woocommerce-product-sku-generator/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Automatically generate SKUs for products using the product slug and "
+"(optionally) variation attributes"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "SkyVerge"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.skyverge.com/"
+msgstr ""
