@@ -2,7 +2,7 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Product SKU Generator 1.2.0\n"
+"Project-Id-Version: WooCommerce Product SKU Generator 1.2.1\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/skyverge/woocommerce-product-sku-generator/issues\n"
 "POT-Creation-Date: 2014-09-05 22:43:01+00:00\n"
@@ -13,37 +13,45 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: woocommerce-product-sku-generator.php:134
+#: build/woocommerce-product-sku-generator.php:134
+#: woocommerce-product-sku-generator.php:145
 msgid "SKU"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:165
+#: build/woocommerce-product-sku-generator.php:165
+#: woocommerce-product-sku-generator.php:176
 msgid "SKUs"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:200
+#: build/woocommerce-product-sku-generator.php:200
+#: woocommerce-product-sku-generator.php:211
 msgid "Generate SKUs for:"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:201
+#: build/woocommerce-product-sku-generator.php:201
+#: woocommerce-product-sku-generator.php:212
 msgid ""
 "Should SKUs be generated for simple/parent products only, variations only, "
 "or both?"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:205
+#: build/woocommerce-product-sku-generator.php:205
+#: woocommerce-product-sku-generator.php:216
 msgid "Both parent products and variations"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:206
+#: build/woocommerce-product-sku-generator.php:206
+#: woocommerce-product-sku-generator.php:217
 msgid "Only for simple or parent products"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:207
+#: build/woocommerce-product-sku-generator.php:207
+#: woocommerce-product-sku-generator.php:218
 msgid "Only for variations of the product"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:212
+#: build/woocommerce-product-sku-generator.php:212
+#: woocommerce-product-sku-generator.php:223
 msgid ""
 "Choosing \"Only variations\" will allow you to set a parent SKU. The SKU "
 "field is disabled otherwise."

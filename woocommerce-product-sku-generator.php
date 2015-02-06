@@ -5,7 +5,7 @@
  * Description: Automatically generate SKUs for products using the product slug and (optionally) variation attributes
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 1.2.0
+ * Version: 1.2.1
  * Text Domain: wc-product-sku-generator
  * Domain Path: /i18n/languages/
  *
@@ -37,6 +37,17 @@
  * be 'wp-tee-shirt-small-white'. If only variation SKUs are generated, then the parent SKU
  * will be set and used, and attributes will be appended to it.
  */
+ 
+/**
+ * Load Translations
+ *
+ * @since 1.2.1
+ */
+function wc_sku_generator_load_translation() {
+	// localization
+	load_plugin_textdomain( 'wc-product-sku-generator', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n/languages' );
+}
+add_action( 'init', 'wc_sku_generator_load_translation' );
 
 /**
  * Update product SKUs using the generated SKU

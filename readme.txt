@@ -6,7 +6,7 @@ Requires at least: 3.8
 Tested up to: 4.1
 Requires WooCommerce at least: 2.1
 Tested WooCommerce up to: 2.3
-Stable Tag: 1.2.0
+Stable Tag: 1.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -58,9 +58,9 @@ This action will also automatically generate the SKUs for product variations if 
 
 == Installation ==
 
-1. Be sure you're running WooCommerce 2.1+
-2. Search for "WooCommerce Product SKU Generator" under Plugins &gt; Add New
-3. Activate the plugin through the 'Plugins' menu in WordPress
+1. Be sure you're running WooCommerce 2.1+ in your shop.
+2. You can: (1) upload the entire `woocommerce-extra-product-sorting-options` folder to the `/wp-content/plugins/` directory, (2) upload the .zip file with the plugin under **Plugins &gt; Add New &gt; Upload**, or (3) Search for "WooCommerce Product SKU Generator" under Plugins &gt; Add New
+3. Activate the plugin through the **Plugins** menu in WordPress
 4. Go to **WooCommerce &gt; Settings &gt; Products** and scroll down to "Generate SKUs for:". Here you have the option to generate SKUs for only simple / parent products, variations, or both.
 5. View [documentation on the product page](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for more help if needed.
 
@@ -90,6 +90,9 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 5. Variation SKU generated when you set the parent SKU (if you only generate variation SKUs)
 
 == Changelog ==
+
+= 2015.02.06 - version 1.2.1 =
+ * Fix: bug with loading translations
 
 = 2015.02.04 - version 1.2.0 =
  * Misc: WooCommerce 2.3 compatibility
