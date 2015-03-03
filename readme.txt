@@ -1,12 +1,12 @@
 === WooCommerce Product SKU Generator ===
-Contributors: beka.rice, skyverge
+Contributors: skyverge, beka.rice
 Tags: woocommerce, sku, product sku
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 3.8
 Tested up to: 4.1
 Requires WooCommerce at least: 2.1
 Tested WooCommerce up to: 2.3
-Stable Tag: 1.2.1
+Stable Tag: 1.2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -27,7 +27,7 @@ You can also selectively enable and disable the plugin if you don't want to over
 = Features =
 This plugin provides options to:
 
- - automatically generate simple / parent product SKUs when the product is published or updated using the product slug
+ - automatically generate simple / parent product SKUs when the product is published or updated using the product slug (filterable to use something like the ID if desired)
  - generate SKUs for product variations using the parent SKU + variation attributes
  - generate both the parent and variation SKUs automatically
  - use the bulk product update action to easily generate SKUs for products created before installing this plugin.
@@ -79,6 +79,21 @@ Variation SKUs can be overridden if you're not automatically generated them. The
 = How do I add SKUs to old products? =
 Select the products you'd like to generate SKUs for under **Products**. Go to the bulk actions in the top left and click "Edit", then apply. All you need to do is hit "Update" to save these products, and SKUs will automatically be added.
 
+= Can I use something other than the product slug to generate the SKUs? =
+You can use the `wc_sku_generator_sku` filter, which passes the SKU as the value and the product as a variable, to change what's used as the SKU. You must be using plugin version 1.2.2 or newer, and you **must** use a unique value for SKUs (WooCommerce checks this).
+
+We recommend the ID, slug, or you could generate a unique string / number in your custom snippet. For example, you can use the product / post ID instead of the slug to generate the SKU with this custom snippet in your companion plugin or child theme's functions.php:
+
+`
+function sv_change_sku_value( $sku, $product ) {
+
+	// Change the generated SKU to use the product's post ID instead of the slug
+	$sku = $product->get_post_data()->ID;
+	return $sku;
+}
+add_filter( 'wc_sku_generator_sku', 'sv_change_sku_value', 10, 2 );
+`
+
 = This is handy! Can I contribute? =
 Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/woocommerce-product-sku-generator/) and submit a pull request :)
 
@@ -90,6 +105,9 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 5. Variation SKU generated when you set the parent SKU (if you only generate variation SKUs)
 
 == Changelog ==
+
+= 2015.03.03 - version 1.2.2 =
+ * Misc: added `wc_sku_generator_sku` filter to change generated SKU base for simple / parent products
 
 = 2015.02.06 - version 1.2.1 =
  * Fix: bug with loading translations

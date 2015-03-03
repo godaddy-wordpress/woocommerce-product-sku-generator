@@ -5,7 +5,7 @@
  * Description: Automatically generate SKUs for products using the product slug and (optionally) variation attributes
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 1.2.1
+ * Version: 1.2.2
  * Text Domain: wc-product-sku-generator
  * Domain Path: /i18n/languages/
  *
@@ -75,7 +75,8 @@ function wc_sku_generator_update_sku( $product ) {
 
 	// Only generate SKUs for product variations if enabled
 	if ( 'all' == $generate_skus ) {
-		$sku = $product->get_post_data()->post_name;
+	
+		$sku = apply_filters( 'wc_sku_generator_sku', $product->get_post_data()->post_name, $product );
 
 		if ( $product->is_type( 'variable' ) ) {
 
@@ -96,7 +97,8 @@ function wc_sku_generator_update_sku( $product ) {
 		}
 
 	} elseif ( 'simple' == $generate_skus ) {
-		$sku = $product->get_post_data()->post_name;
+	
+		$sku = apply_filters( 'wc_sku_generator_sku', $product->get_post_data()->post_name, $product );
 
 		update_post_meta( $product->id, '_sku', $sku );
 
