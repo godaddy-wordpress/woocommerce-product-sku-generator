@@ -79,10 +79,18 @@ function wc_sku_generator_update_sku( $product ) {
 		$sku = apply_filters( 'wc_sku_generator_sku', $product->get_post_data()->post_name, $product );
 
 		if ( $product->is_type( 'variable' ) ) {
+			$attributes = array_map(function($item) {
+				return "attribute_{$item}";
+			}, array_keys($product->get_attributes()));
 
 			foreach( $product->get_available_variations() as $variation ) {
 
-				$variation_sku = implode( $variation['attributes'], '-' );
+				$my_attrs = $variation['attributes'];
+				uksort($my_attrs, function($a, $b) use ($attributes) {
+					return array_search($a, $attributes) - array_search($b, $attributes);
+				});
+
+				$variation_sku = implode( $my_attrs, '-' );
 				$variation_sku = str_replace( 'attribute_', '', $variation_sku );
 
 				update_post_meta( $variation['variation_id'], '_sku', $sku . '-' . $variation_sku );
@@ -106,10 +114,18 @@ function wc_sku_generator_update_sku( $product ) {
 		$sku = $product->get_sku();
 
 		if ( $product->is_type( 'variable' ) ) {
+			$attributes = array_map(function($item) {
+				return "attribute_{$item}";
+			}, array_keys($product->get_attributes()));
 
 			foreach ( $product->get_available_variations() as $variation ) {
 
-				$variation_sku = implode( $variation['attributes'], '-' );
+				$my_attrs = $variation['attributes'];
+				uksort($my_attrs, function($a, $b) use ($attributes) {
+					return array_search($a, $attributes) - array_search($b, $attributes);
+				});
+
+				$variation_sku = implode( $my_attrs, '-' );
 				$variation_sku = str_replace( 'attribute_', '', $variation_sku );
 
 				update_post_meta( $variation['variation_id'], '_sku', $sku . '-' . $variation_sku );
