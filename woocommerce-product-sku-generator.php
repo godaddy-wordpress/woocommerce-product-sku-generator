@@ -40,7 +40,7 @@ class WC_SKU_Generator {
 	
 	
 	/** @var WC_SKU_Generator single instance of this plugin */
-    protected static $instance;
+	protected static $instance;
 	
 	
 	public function __construct() {
