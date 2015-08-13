@@ -39,6 +39,10 @@ class WC_SKU_Generator {
 	const VERSION = '2.0.0';
 	
 	
+	/** @var WC_SKU_Generator single instance of this plugin */
+    protected static $instance;
+	
+	
 	public function __construct() {
 		
 		// load translations
@@ -64,6 +68,22 @@ class WC_SKU_Generator {
 			$this->install();
 		}
 	}
+	
+	
+	/**
+	 * Main Sku Generator Instance, ensures only one instance is/can be loaded
+	 *
+	 * @since 2.0.0
+	 * @see wc_sku_generator()
+	 * @return WC_SKU_Generator
+	 */
+	public static function instance() {
+    	if ( is_null( self::$instance ) ) {
+       		self::$instance = new self();
+   		}
+    	return self::$instance;
+	}
+	
 	
 	/**
 	 * Adds plugin page links
@@ -385,8 +405,21 @@ class WC_SKU_Generator {
 
 
 /**
- * The WC_SKU_Generator global object
+ * Returns the One True Instance of WC SKU Generator
+ *
+ * @since 2.0.0
+ * @return WC_SKU_Generator
+ */
+function wc_sku_generator() {
+    return WC_SKU_Generator::instance();
+}
+
+
+/**
+ * The WC_SKU_Generator global object, exists only for backwards compat
+ *
+ * @deprecated 2.0.0
  * @name $wc_sku_generator
  * @global WC_SKU_Generator $GLOBALS['wc_sku_generator']
  */
-$GLOBALS['wc_sku_generator'] = new WC_SKU_Generator();
+$GLOBALS['wc_sku_generator'] = wc_sku_generator();
