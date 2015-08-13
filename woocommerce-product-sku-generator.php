@@ -281,7 +281,7 @@ class WC_SKU_Generator {
 	 * @since 1.2.0
 	 * @return array $wc_sku_generator_settings plugin settings
 	 */
-	public function get_settings() {
+	protected function get_settings() {
 
 		$wc_sku_generator_settings = array(
 		
