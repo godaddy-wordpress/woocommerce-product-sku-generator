@@ -24,9 +24,9 @@ You can also selectively enable and disable the plugin if you don't want to over
 
 = Automated SKUs =
 
-SKUs for simple, external, or parent products can be generated from the product's slug (name) or ID. For example, a product with the slug `wp-tee-shirt` can have a SKU of `wp-tee-shirt-` or `192` (whatever the product's ID is). This SKU will be generated any time the product is published or updated.
+SKUs for simple, external, or parent products can be generated from the product's slug (name) or ID. For example, a product with the slug `wp-tee-shirt` can have a SKU of `wp-tee-shirt` or `192` (whatever the product's ID is). This SKU will be generated any time the product is published or updated.
 
-If the product is a variable product, this plugin can also generate SKUs for the product variations if desired. Variation SKUs can either append attribute slugs or variation IDs for each variation to the parent SKU.
+If the product is a variable product, this plugin can also generate SKUs for the product variations if desired (these typically inherit the parent SKU). Variation SKUs can either append attribute slugs or variation IDs for each variation to the parent SKU.
 
 Here are some samples of different SKU formats that can be created with this plugin:
 
@@ -35,15 +35,17 @@ Here are some samples of different SKU formats that can be created with this plu
 You can also manually set simple / parent SKUs, or manually set the variation SKUs, if you don't want the plugin to generate them for you.
 
 = Features =
+
 This plugin provides options to:
 
  - automatically generate simple / parent product SKUs when the product is published or updated 
  - generate simple / parent product SKUs using the product slug or ID (filterable for developers)
  - automatically generate SKUs for product variations when the product is published or updated
  - generate variation SKUs using the attribute slugs or variation ID (filterable for developers)
- - use the bulk product update action to easily generate SKUs for products created before installing this plugin.
+ - use the bulk product update action to easily force SKU generation for more than one product -- handy to bulk-generate SKUs for products created before installing this plugin
 
 = SKUs for all product types =
+
 The WooCommerce Product SKU generator lets you determine which SKUs should be generated automatically, and whether these SKUs should use product slugs or IDs. If a SKU is generated, the input for that SKU will be disabled since you cannot adjust it.
 
 If you choose not to generate a SKU, then you can enter your own SKU. For example, if you only generate variation SKUs, then you can enter a parent product SKU. This will be used as the base for your generated variation SKUs, and slugs or IDs will be appended to it.
@@ -51,11 +53,13 @@ If you choose not to generate a SKU, then you can enter your own SKU. For exampl
 If you only create parent / simple SKUs, you will be able to manually create your own variation SKUs, as these will not be overridden by saving or updating a product.
 
 = Bulk Updating =
+
 You can bulk add SKUs to products that you've created prior to installing this plugin. If you select the products you want to update, then bulk edit them, all you have to do is hit "Update". When the products are saved, SKUs will be generated for all products.
 
 This action will also automatically generate the SKUs for product variations if you have them enabled.
 
 = More Details =
+
  - See the [product page](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for full details and documentation
  - View more of SkyVerge's [free WooCommerce extensions](http://profiles.wordpress.org/skyverge/)
  - View all [WooCommerce extensions](http://www.skyverge.com/shop/) from SkyVerge
@@ -67,30 +71,37 @@ This action will also automatically generate the SKUs for product variations if 
 1. Be sure you're running WooCommerce 2.2+ in your shop.
 2. You can: (1) upload the entire `woocommerce-product-sku-generator` folder to the `/wp-content/plugins/` directory, (2) upload the .zip file with the plugin under **Plugins &gt; Add New &gt; Upload**, or (3) Search for "WooCommerce Product SKU Generator" under Plugins &gt; Add New
 3. Activate the plugin through the **Plugins** menu in WordPress
-4. Go to **WooCommerce &gt; Settings &gt; Products** and scroll down to the "Product SKUs". Select which SKUs you'd like to generate and what should be used to generate them.
+4. Click the "Configure" plugin link or go to **WooCommerce &gt; Settings &gt; Products** and scroll down to the "Product SKUs". Select which SKUs you'd like to generate and what should be used to generate them.
 5. View [documentation on the product page](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for more help if needed.
 
 == Frequently Asked Questions ==
 
 = What happens to my old SKUs? =
+
 This plugin generates SKUs any time products are created or updated. Your old SKUs will be overridden if you use it - **only** leave the plugin enabled if you don't want to manage SKUs yourself.
 
 You can also selectively disable and re-enable the plugin if you don't want to override SKUs when saving products.
 
-= What happens to variation SKUs? =
-Variation SKUs can be set manually if you're not generating them. **They will be overridden** if your settings are set auto-generate them, even if you try to change them manually. If you'd like to change an SKU for a product, disable the plugin, change the SKU, and update the product. You can re-enable the plugin as needed.
-
 = How do I add SKUs to old products? =
+
 Select the products you'd like to generate SKUs for under **Products**. Go to the bulk actions in the top left and click "Edit", then apply. All you need to do is hit "Update" to save these products, and SKUs will automatically be added.
 
+= Why does whatever I enter for the variation SKU get overridden? =
+
+Variation SKUs can be set manually if you're _not_ generating them. **They will be overridden** if your settings are set auto-generate them, even if you try to change them manually. Please check your settings here.
+
+If you'd like to change an SKU for a product, disable the plugin, change the SKU, and update the product. You can re-enable the plugin as needed.
+
 = Can I use something other than the product slug to generate the SKUs? =
+
 Yep! Version 2.0 added the ability to use product slugs or IDs.
 
 For more advanced uses, you can use the `wc_sku_generator_sku` filter (v1.2.2+), which passes the parent SKU as the value and the product as a variable, to change what's used as the parent SKU. You can change the variation SKU using the `wc_sku_generator_variation_sku` filter (v2.0.0+).
 
 You **must** use a unique value for SKUs (WooCommerce checks this). For example, you could generate a unique string or number in a custom snippet to use for the SKU with the help of a developer.
 
-= Can I change the connector between variation SKU format? =
+= Can I change variation SKU format? =
+
 Yes, `wc_sku_generator_variation_sku_format` passes in the SKU as it's currently formatted: `ParentSKU-VariationSKU`, which looks like this:
 
 `
@@ -112,9 +123,11 @@ add_filter( 'wc_sku_generator_variation_sku_format', 'sv_change_variation_sku_fo
 `
 
 = This is handy! Can I contribute? =
+
 Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/woocommerce-product-sku-generator/) and submit a pull request :)
 
 == Screenshots ==
+
 1. Plugin Settings
 2. Automatic SKU generation upon publish / update
 3. Automatic variation SKUs based on attributes (if enabled)
@@ -124,11 +137,11 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 
 = 2015.08.11 - version 2.0.0 =
  * Feature: You can now generate SKUs using slugs **or** IDs for products / variations
- * Misc: WooCommerce 2.4 compatibility
+ * Misc: confirms WooCommerce 2.4 compatibility
  * Misc: **requires WooCommerce 2.2 or newer**
  * Misc: refactored for better performance and to add install / upgrade routine
- * Misc: added `wc_sku_generator_variation_sku` and `wc_sku_generator_variation_sku_format` filters to adjust generated SKU for variations
- * Fix: attributes are now sorted consistently when used for variations SKUs, props [@humancopy](https://github.com/humancopy)!
+ * Misc: introduce `wc_sku_generator_variation_sku` and `wc_sku_generator_variation_sku_format` filters to adjust generated SKU for variations
+ * Misc: introduce `wc_sku_generator_force_sorting` filter to force attribute sorting in SKUs, props [@humancopy](https://github.com/humancopy)!
 
 = 2015.03.03 - version 1.2.2 =
  * Misc: added `wc_sku_generator_sku` filter to change generated SKU base for simple / parent products
