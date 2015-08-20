@@ -153,7 +153,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 
 == Changelog ==
 
-= 2015.08.11 - version 2.0.0 =
+= 2015.08.19 - version 2.0.0 =
  * Feature: You can now generate SKUs using slugs **or** IDs for products / variations
  * Misc: confirms WooCommerce 2.4 compatibility
  * Misc: **requires WooCommerce 2.2 or newer**
