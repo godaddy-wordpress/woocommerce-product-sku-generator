@@ -28,9 +28,7 @@ SKUs for simple, external, or parent products can be generated from the product'
 
 If the product is a variable product, this plugin can also generate SKUs for the product variations if desired (these typically inherit the parent SKU). Variation SKUs can either append attribute slugs or variation IDs for each variation to the parent SKU.
 
-Here are some samples of different SKU formats that can be created with this plugin:
-
-![sku-generator-samples](https://cldup.com/8UdEpry7Q4.png)
+[Here are some samples](https://cldup.com/8UdEpry7Q4.png) of different SKU formats that can be created with this plugin.
 
 You can also manually set simple / parent SKUs, or manually set the variation SKUs, if you don't want the plugin to generate them for you.
 
@@ -136,6 +134,7 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 2. Automatic SKU generation upon publish / update
 3. Automatic variation SKUs based on attributes (if enabled)
 4. Variation SKU generated when you set the parent SKU (if you only generate variation SKUs)
+5. Some sample generated SKU formats
 
 == Other Notes ==
 
