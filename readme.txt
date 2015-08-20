@@ -6,7 +6,7 @@ Requires at least: 3.8
 Tested up to: 4.3
 Requires WooCommerce at least: 2.2
 Tested WooCommerce up to: 2.4
-Stable Tag: 2.0.0
+Stable Tag: 2.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -152,6 +152,9 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 `
 
 == Changelog ==
+
+= 2015.08.20 - version 2.0.1 =
+ * Fix: SKUs generated from UTF-8 characters are no longer encoded
 
 = 2015.08.19 - version 2.0.0 =
  * Feature: You can now generate SKUs using slugs **or** IDs for products / variations
