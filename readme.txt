@@ -122,6 +122,10 @@ function sv_change_variation_sku_format( $sku, $product_sku, $variation_sku ) {
 add_filter( 'wc_sku_generator_variation_sku_format', 'sv_change_variation_sku_format', 10, 3 );
 `
 
+= Sometimes attributes for my variation SKUs aren't in the same order. Can I fix this? =
+
+We've seen this happen in only one situation, so we have a filter rather than a setting for this. Please see the instructions in [Other Notes](https://wordpress.org/plugins/woocommerce-product-sku-generator/other_notes/) to force the attribute order.
+
 = This is handy! Can I contribute? =
 
 Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/woocommerce-product-sku-generator/) and submit a pull request :)
@@ -132,6 +136,20 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 2. Automatic SKU generation upon publish / update
 3. Automatic variation SKUs based on attributes (if enabled)
 4. Variation SKU generated when you set the parent SKU (if you only generate variation SKUs)
+
+== Other Notes ==
+
+In very rare cases, you may find that variation SKUs do not sort attributes in the same order. For example, one variation may be `tee-shirt-large-black`, and another could be `tee-shirt-black-medium`. 
+
+If this occurs, you can force attributes to sort themselves consistently before generating the SKU, which will resolve this problem. You could also consider this for new installations.
+
+**Be sure you want to enable this** if you have existing SKUs, as variation SKUs that were generated previously _could_ be overridden while updating a product &ndash; they'll be re-generated with the forced attribute order.
+
+To force attribute sorting, add this code snippet where you add your site modifications, such as a custom plugin or theme's functions.php:
+
+`
+add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
+`
 
 == Changelog ==
 
