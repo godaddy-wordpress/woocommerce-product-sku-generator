@@ -146,24 +146,20 @@ class WC_SKU_Generator {
 	 * @return string $variation_sku the generated string to append for the variation's SKU
 	 */
 	protected function generate_variation_sku( $variation ) {
-	
-		// TODO: sort attributes consistently so they're always in alpha order
-	
-		/* Example from PR #2 (needs update for PHP 5.2 compat)
-	
-		$attributes = array_map(function($item) {
-			return "attribute_{$item}";
-		}, array_keys($product->get_attributes()));keys($product->get_attributes()));
-
-		$my_attrs = $variation['attributes'];
-			uksort($my_attrs, function($a, $b) use ($attributes) {
-				return array_search($a, $attributes) - array_search($b, $attributes);
-			});
-
-		$variation_sku = implode( $my_attrs, '-' );
-		*/
 		
 		if ( 'slugs' === get_option( 'wc_sku_generator_variation' ) ) {
+			
+			/**
+			 * Attributes in SKUs _could_ be sorted inconsistently in rare cases
+			 * Return true here to ensure they're always sorted consistently
+			 *
+			 * @since 2.0.0
+			 * @param bool $sort_atts true to force attribute sorting
+			 * @see https://github.com/bekarice/woocommerce-product-sku-generator/pull/2
+			 */
+			if ( apply_filters( 'wc_sku_generator_force_attribute_sorting', false ) ) {
+				ksort( $variation['attributes'] );
+			}
 			
 			$separator = apply_filters( 'wc_sku_generator_attribute_separator', '-' );
 			
@@ -199,7 +195,7 @@ class WC_SKU_Generator {
 		// Only generate / save variation SKUs when we should
 		if ( $product->is_type( 'variable' ) && 'never' !== get_option( 'wc_sku_generator_variation' ) ) {
 		
-			foreach( $product->get_available_variations() as $variation ) {
+			foreach ( $product->get_available_variations() as $variation ) {
 		
 				$variation_sku = $this->generate_variation_sku( $variation );
 				$sku = $product_sku . '-' . $variation_sku;
