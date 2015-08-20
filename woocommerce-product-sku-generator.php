@@ -124,17 +124,17 @@ class WC_SKU_Generator {
 	protected function generate_product_sku( $product ) {
 	
 		// get the original product SKU in case we're not generating it
-		$parent_sku = $product->get_sku();
+		$product_sku = $product->get_sku();
 		
 		if ( 'slugs' === get_option( 'wc_sku_generator_simple' ) ) {
-			$parent_sku = $product->get_post_data()->post_name;
+			$product_sku = $product->get_post_data()->post_name;
 		}
 		
 		if ( 'ids' === get_option( 'wc_sku_generator_simple' ) ) {
-			$parent_sku = $product->id;
+			$product_sku = $product->id;
 		}
 		
-		return apply_filters( 'wc_sku_generator_sku', $parent_sku, $product );
+		return apply_filters( 'wc_sku_generator_sku', $product_sku, $product );
 	}
 	
 	
