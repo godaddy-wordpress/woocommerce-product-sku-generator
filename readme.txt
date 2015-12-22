@@ -3,10 +3,10 @@ Contributors: skyverge, beka.rice
 Tags: woocommerce, sku, product sku
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 3.8
-Tested up to: 4.3
+Tested up to: 4.4.1
 Requires WooCommerce at least: 2.2
-Tested WooCommerce up to: 2.4
-Stable Tag: 2.0.1
+Tested WooCommerce up to: 2.5
+Stable Tag: 2.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ Automatically generate WooCommerce product SKUs from the product / attribute slu
 
 == Description ==
 
-> **Requires: WooCommerce 2.2+**, Compatible with WooCommerce 2.3 or newer
+> **Requires: WooCommerce 2.2** or newer
 
 Automatically generate a SKU for parent / simple products, variations, or both when the product is published or updated.
 
@@ -36,7 +36,7 @@ You can also manually set simple / parent SKUs, or manually set the variation SK
 
 This plugin provides options to:
 
- - automatically generate simple / parent product SKUs when the product is published or updated 
+ - automatically generate simple / parent product SKUs when the product is published or updated
  - generate simple / parent product SKUs using the product slug or ID (filterable for developers)
  - automatically generate SKUs for product variations when the product is published or updated
  - generate variation SKUs using the attribute slugs or variation ID (filterable for developers)
@@ -98,27 +98,9 @@ For more advanced uses, you can use the `wc_sku_generator_sku` filter (v1.2.2+),
 
 You **must** use a unique value for SKUs (WooCommerce checks this). For example, you could generate a unique string or number in a custom snippet to use for the SKU with the help of a developer.
 
-= Can I change variation SKU format? =
+= I'm using IDs for SKUs. Will they be sequential? =
 
-Yes, `wc_sku_generator_variation_sku_format` passes in the SKU as it's currently formatted: `ParentSKU-VariationSKU`, which looks like this:
-
-`
-$parent_sku . '-' . $variation_sku
-`
-
-You can change this format to reverse them, change the connector, etc. If you want to change the divider between variation attributes, you can do so as well. Here's a snippet that changes the SKUs to use underscores instead of dashes (be sure you know how to add custom code to your site to use this):
-
-`
-function sv_change_sku_attribute_separator( $separator ) {
-	return '_';
-}
-add_filter( 'wc_sku_generator_attribute_separator', 'sv_change_sku_attribute_separator' );
-
-function sv_change_variation_sku_format( $sku, $product_sku, $variation_sku ) {
-	return $product_sku . '_' . $variation_sku;
-}
-add_filter( 'wc_sku_generator_variation_sku_format', 'sv_change_variation_sku_format', 10, 3 );
-`
+Roughly, yes. Actually, no. The SKUs will increase as you add more products / variations, but these use the post ID from WordPress (similar to your orders). Each SKU will be higher than the last, but they won't be exactly in order, as other posts (like blog posts, orders or products), also use the same ID counter. Your SKUs will increase, but skip numbers.
 
 = Sometimes attributes for my variation SKUs aren't in the same order. Can I fix this? =
 
@@ -126,7 +108,7 @@ We've seen this happen in only one situation, so we have a filter rather than a 
 
 = This is handy! Can I contribute? =
 
-Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/woocommerce-product-sku-generator/) and submit a pull request :)
+Yes you can! Join in on our [GitHub repository](https://github.com/skyverge/woocommerce-product-sku-generator/) and submit a pull request :)
 
 == Screenshots ==
 
@@ -138,7 +120,13 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 
 == Other Notes ==
 
-In very rare cases, you may find that variation SKUs do not sort attributes in the same order. For example, one variation may be `tee-shirt-large-black`, and another could be `tee-shirt-black-medium`. 
+= Translations =
+
+**The plugin text domain is**: `woocommerce-product-sku-generator`
+
+= Attribute Sorting =
+
+In very rare cases, you may find that variation SKUs do not sort attributes in the same order. For example, one variation may be `tee-shirt-large-black`, and another could be `tee-shirt-black-medium`.
 
 If this occurs, you can force attributes to sort themselves consistently before generating the SKU, which will resolve this problem. You could also consider this for new installations.
 
@@ -151,6 +139,10 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 `
 
 == Changelog ==
+
+= 2015.12.22 - version 2.1.0 =
+ * Misc: updated text domain to `woocommerce-product-sku-generator` -- **please update translations**!
+ * Misc: added WooCommerce 2.5 support
 
 = 2015.08.20 - version 2.0.1 =
  * Fix: SKUs generated from UTF-8 characters are no longer encoded
@@ -186,6 +178,6 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 = 2014.06.13 - version 1.0.1 =
  * Re-versioned + incremented for bug fix
  * Fix: javascript issue during WooCommerce update
- 
+
 = 2014.04.15 - version 0.1 =
  * Initial Release
