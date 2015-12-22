@@ -2,7 +2,7 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Product SKU Generator 2.0.1\n"
+"Project-Id-Version: WooCommerce Product SKU Generator 2.1.0\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/skyverge/woocommerce-product-sku-generator/issues\n"
 "POT-Creation-Date: 2014-09-05 22:43:01+00:00\n"
@@ -13,79 +13,72 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: build/woocommerce-product-sku-generator.php:98
-#: woocommerce-product-sku-generator.php:98
+#: woocommerce-product-sku-generator.php:41
+#. translators: %1$s and %2$s are <strong> tags. %3$s and %4$s are <a> tags
+msgid ""
+"%1$sWooCommerce Product SKU Generator is inactive.%2$s This plugin requires "
+"WooCommerce 2.2 or newer. Please %3$supdate WooCommerce to version 2.2 or "
+"newer%4$s"
+msgstr ""
+
+#: woocommerce-product-sku-generator.php:136
 msgid "Configure"
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:99
-#: woocommerce-product-sku-generator.php:99
+#: woocommerce-product-sku-generator.php:137
 msgid "Support"
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:235
-#: woocommerce-product-sku-generator.php:235
+#: woocommerce-product-sku-generator.php:273
 msgid "SKU"
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:285
-#: woocommerce-product-sku-generator.php:285
+#: woocommerce-product-sku-generator.php:323
 msgid "Product SKUs"
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:291
-#: woocommerce-product-sku-generator.php:291
+#: woocommerce-product-sku-generator.php:329
 msgid "Generate Simple / Parent SKUs:"
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:292
-#: woocommerce-product-sku-generator.php:292
+#: woocommerce-product-sku-generator.php:330
 msgid ""
 "Generating simple / parent SKUs disables the SKU field while editing "
 "products."
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:296
-#: build/woocommerce-product-sku-generator.php:312
-#: woocommerce-product-sku-generator.php:296
-#: woocommerce-product-sku-generator.php:312
+#: woocommerce-product-sku-generator.php:334
+#: woocommerce-product-sku-generator.php:350
 msgid "Never (let me set them)"
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:297
-#: woocommerce-product-sku-generator.php:297
+#: woocommerce-product-sku-generator.php:335
 msgid "Using the product slug (name)"
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:298
-#: woocommerce-product-sku-generator.php:298
+#: woocommerce-product-sku-generator.php:336
 msgid "Using the product ID"
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:303
-#: woocommerce-product-sku-generator.php:303
+#: woocommerce-product-sku-generator.php:341
 msgid ""
 "Determine how SKUs for simple, external, or parent products will be "
 "generated."
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:307
-#: woocommerce-product-sku-generator.php:307
+#: woocommerce-product-sku-generator.php:345
 msgid "Generate Variation SKUs:"
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:308
-#: woocommerce-product-sku-generator.php:308
+#: woocommerce-product-sku-generator.php:346
 msgid "Determine how SKUs for product variations will be generated."
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:313
-#: woocommerce-product-sku-generator.php:313
+#: woocommerce-product-sku-generator.php:351
 msgid "Using the attribute slugs (names)"
 msgstr ""
 
-#: build/woocommerce-product-sku-generator.php:314
-#: woocommerce-product-sku-generator.php:314
+#: woocommerce-product-sku-generator.php:352
 msgid "Using the variation ID"
 msgstr ""
 
