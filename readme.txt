@@ -70,7 +70,8 @@ This action will also automatically generate the SKUs for product variations if 
 2. You can: (1) upload the entire `woocommerce-product-sku-generator` folder to the `/wp-content/plugins/` directory, (2) upload the .zip file with the plugin under **Plugins &gt; Add New &gt; Upload**, or (3) Search for "WooCommerce Product SKU Generator" under Plugins &gt; Add New
 3. Activate the plugin through the **Plugins** menu in WordPress
 4. Click the "Configure" plugin link or go to **WooCommerce &gt; Settings &gt; Products** and scroll down to the "Product SKUs". Select which SKUs you'd like to generate and what should be used to generate them.
-5. View [documentation on the product page](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for more help if needed.
+5. If you generate variation SKUs with slugs, determine if spaces in attribute names should be replaced with underscores instead.
+6. View [documentation on the product page](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for more help if needed.
 
 == Frequently Asked Questions ==
 
@@ -123,6 +124,12 @@ Yes you can! Join in on our [GitHub repository](https://github.com/skyverge/wooc
 = Translations =
 
 **The plugin text domain is**: `woocommerce-product-sku-generator`
+
+= Attribute Names =
+
+By default, if you have an attribute name with a space (such as "Burnt Marshmallow" for color), the SKU will use this exact formatting. A SKU for this variation would look like: `parentSKU-Burnt Marshmallow`
+
+If you enable the setting to replace spaces, this will instead look like: `parentSKU-Burnt_Marshmallow` -- this is helpful if your external fulfillment service does not allow spaces in SKUs.
 
 = Attribute Sorting =
 
