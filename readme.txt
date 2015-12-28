@@ -140,7 +140,8 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 
 == Changelog ==
 
-= 2015.12.22 - version 2.1.0 =
+= 2015.12.31 - version 2.1.0 =
+ * Feature: adds setting to replace spaces in attribute names with underscores if variation SKUs use them
  * Misc: updated text domain to `woocommerce-product-sku-generator` -- **please update translations**!
  * Misc: added WooCommerce 2.5 support
 

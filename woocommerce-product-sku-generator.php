@@ -91,6 +91,7 @@ class WC_SKU_Generator {
 			// add settings
 			add_filter( 'woocommerce_products_general_settings', array( $this, 'add_settings' ) );
 			add_filter( 'woocommerce_product_settings', array( $this, 'add_settings' ) );
+			add_action( 'admin_print_scripts', array( $this, 'admin_js' ) );
 
 			// add plugin links
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_plugin_links' ) );
@@ -186,6 +187,11 @@ class WC_SKU_Generator {
 	protected function generate_variation_sku( $variation ) {
 
 		if ( 'slugs' === get_option( 'wc_sku_generator_variation' ) ) {
+
+			// replace spaces in attributes with underscores if set
+			if ( 'yes' === get_option( 'wc_sku_generator_attribute_spaces' ) ) {
+				$variation['attributes'] = str_replace( ' ', '_', $variation['attributes'] );
+			}
 
 			/**
 			 * Attributes in SKUs _could_ be sorted inconsistently in rare cases
@@ -320,9 +326,9 @@ class WC_SKU_Generator {
 		$wc_sku_generator_settings = array(
 
 			array(
-				'title' 	=> __( 'Product SKUs', 'woocommerce-product-sku-generator' ),
-				'type' 		=> 'title',
-				'id' 		=> 'product_sku_options'
+				'title' => __( 'Product SKUs', 'woocommerce-product-sku-generator' ),
+				'type'  => 'title',
+				'id'    => 'product_sku_options'
 			),
 
 			array(
@@ -331,9 +337,9 @@ class WC_SKU_Generator {
 				'id'       => 'wc_sku_generator_simple',
 				'type'     => 'select',
 				'options'  => array(
-					'never'	=> __( 'Never (let me set them)', 'woocommerce-product-sku-generator' ),
-					'slugs'	=> __( 'Using the product slug (name)', 'woocommerce-product-sku-generator' ),
-					'ids'	=> __( 'Using the product ID', 'woocommerce-product-sku-generator' ),
+					'never' => __( 'Never (let me set them)', 'woocommerce-product-sku-generator' ),
+					'slugs' => __( 'Using the product slug (name)', 'woocommerce-product-sku-generator' ),
+					'ids'   => __( 'Using the product ID', 'woocommerce-product-sku-generator' ),
 				),
 				'default'  => 'slugs',
 				'class'    => 'wc-enhanced-select chosen_select',
@@ -347,9 +353,9 @@ class WC_SKU_Generator {
 				'id'       => 'wc_sku_generator_variation',
 				'type'     => 'select',
 				'options'  => array(
-					'never'	=> __( 'Never (let me set them)', 'woocommerce-product-sku-generator' ),
-					'slugs'	=> __( 'Using the attribute slugs (names)', 'woocommerce-product-sku-generator' ),
-					'ids'	=> __( 'Using the variation ID', 'woocommerce-product-sku-generator' ),
+					'never' => __( 'Never (let me set them)', 'woocommerce-product-sku-generator' ),
+					'slugs' => __( 'Using the attribute slugs (names)', 'woocommerce-product-sku-generator' ),
+					'ids'   => __( 'Using the variation ID', 'woocommerce-product-sku-generator' ),
 				),
 				'default'  => 'slugs',
 				'class'    => 'wc-enhanced-select chosen_select',
@@ -358,13 +364,52 @@ class WC_SKU_Generator {
 			),
 
 			array(
-				'type' 	=> 'sectionend',
-				'id' 	=> 'product_sku_options'
+				'title'   => __( 'Replace spaces in attributes', 'woocommerce-product-sku-generator' ),
+				/* translators: placeholders are <strong> tags */
+				'desc'    => sprintf( __( 'Replace spaces in attribute names with underscores.%1$sWill update existing variation SKUs when product is saved%2$s.', 'woocommerce-product-sku-generator' ), '<br /><strong>', '</strong>' ),
+				'id'      => 'wc_sku_generator_attribute_spaces',
+				'type'    => 'checkbox',
+				'default' => 'no',
+			),
+
+			array(
+				'type' => 'sectionend',
+				'id'   => 'product_sku_options'
 			),
 
 		);
 
 		return $wc_sku_generator_settings;
+	}
+
+
+	/**
+	 * Hides the "replace spaces in attributes" setting if slugs are not used for variation SKUs
+	 *
+	 * @since 2.1.0
+	 */
+	public function admin_js() {
+
+		$current_page = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : '';
+
+		global $current_section;
+
+		if ( 'wc-settings' === $current_page && 'products' === $current_tab && empty( $current_section ) ) {
+			wc_enqueue_js(
+				"jQuery(document).ready(function() {
+
+					jQuery( 'select#wc_sku_generator_variation' ).change( function() {
+						if ( jQuery( this ).val() === 'slugs' ) {
+							jQuery( this ).closest('tr').next('tr').show();
+						} else {
+							jQuery( this ).closest('tr').next('tr').hide();
+						}
+					}).change();
+
+				});"
+			);
+		}
 	}
 
 
