@@ -1,4 +1,4 @@
-# Copyright (C) 2015 SkyVerge
+# Copyright (C) 2016 SkyVerge
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
@@ -9,10 +9,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
+#: build/woocommerce-product-sku-generator.php:41
 #: woocommerce-product-sku-generator.php:41
 #. translators: %1$s and %2$s are <strong> tags. %3$s and %4$s are <a> tags
 msgid ""
@@ -21,65 +22,93 @@ msgid ""
 "newer%4$s"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:136
+#: build/woocommerce-product-sku-generator.php:141
+#: woocommerce-product-sku-generator.php:137
 msgid "Configure"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:137
+#: build/woocommerce-product-sku-generator.php:142
+#: woocommerce-product-sku-generator.php:138
 msgid "Support"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:273
+#: build/woocommerce-product-sku-generator.php:283
+#: woocommerce-product-sku-generator.php:279
 msgid "SKU"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:323
+#: build/woocommerce-product-sku-generator.php:355
+#: woocommerce-product-sku-generator.php:329
 msgid "Product SKUs"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:329
+#: build/woocommerce-product-sku-generator.php:361
+#: woocommerce-product-sku-generator.php:335
 msgid "Generate Simple / Parent SKUs:"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:330
+#: build/woocommerce-product-sku-generator.php:362
+#: woocommerce-product-sku-generator.php:336
 msgid ""
 "Generating simple / parent SKUs disables the SKU field while editing "
 "products."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:334
-#: woocommerce-product-sku-generator.php:350
+#: build/woocommerce-product-sku-generator.php:366
+#: build/woocommerce-product-sku-generator.php:382
+#: woocommerce-product-sku-generator.php:340
+#: woocommerce-product-sku-generator.php:356
 msgid "Never (let me set them)"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:335
+#: build/woocommerce-product-sku-generator.php:367
+#: woocommerce-product-sku-generator.php:341
 msgid "Using the product slug (name)"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:336
+#: build/woocommerce-product-sku-generator.php:368
+#: woocommerce-product-sku-generator.php:342
 msgid "Using the product ID"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:341
+#: build/woocommerce-product-sku-generator.php:373
+#: woocommerce-product-sku-generator.php:347
 msgid ""
 "Determine how SKUs for simple, external, or parent products will be "
 "generated."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:345
+#: build/woocommerce-product-sku-generator.php:377
+#: woocommerce-product-sku-generator.php:351
 msgid "Generate Variation SKUs:"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:346
+#: build/woocommerce-product-sku-generator.php:378
+#: woocommerce-product-sku-generator.php:352
 msgid "Determine how SKUs for product variations will be generated."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:351
+#: build/woocommerce-product-sku-generator.php:383
+#: woocommerce-product-sku-generator.php:357
 msgid "Using the attribute slugs (names)"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:352
+#: build/woocommerce-product-sku-generator.php:384
+#: woocommerce-product-sku-generator.php:358
 msgid "Using the variation ID"
+msgstr ""
+
+#: build/woocommerce-product-sku-generator.php:393
+#: woocommerce-product-sku-generator.php:367
+msgid "Replace spaces in attributes"
+msgstr ""
+
+#: build/woocommerce-product-sku-generator.php:395
+#: woocommerce-product-sku-generator.php:369
+#. translators: placeholders are <strong> tags
+msgid ""
+"Replace spaces in attribute names with underscores.%1$sWill update existing "
+"variation SKUs when product is saved%2$s."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
