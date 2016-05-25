@@ -2,11 +2,11 @@
 Contributors: skyverge, beka.rice
 Tags: woocommerce, sku, product sku
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
-Requires at least: 3.8
-Tested up to: 4.4.1
-Requires WooCommerce at least: 2.2
-Tested WooCommerce up to: 2.5
-Stable Tag: 2.1.0
+Requires at least: 4.0
+Tested up to: 4.5.2
+Requires WooCommerce at least: 2.3
+Tested WooCommerce up to: 2.6
+Stable Tag: 2.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ Automatically generate WooCommerce product SKUs from the product / attribute slu
 
 == Description ==
 
-> **Requires: WooCommerce 2.2** or newer
+> **Requires: WooCommerce 2.3** or newer
 
 Automatically generate a SKU for parent / simple products, variations, or both when the product is published or updated.
 
@@ -67,11 +67,20 @@ This action will also automatically generate the SKUs for product variations if 
 > **NOTE that** any time a product is updated, its SKU will be generated, so this may override old SKUs if you update products. This plugin is meant for complete SKU automation, or you can selectively enable / disable it as needed.
 
 1. Be sure you're running WooCommerce 2.2+ in your shop.
-2. You can: (1) upload the entire `woocommerce-product-sku-generator` folder to the `/wp-content/plugins/` directory, (2) upload the .zip file with the plugin under **Plugins &gt; Add New &gt; Upload**, or (3) Search for "WooCommerce Product SKU Generator" under Plugins &gt; Add New
-3. Activate the plugin through the **Plugins** menu in WordPress
-4. Click the "Configure" plugin link or go to **WooCommerce &gt; Settings &gt; Products** and scroll down to the "Product SKUs". Select which SKUs you'd like to generate and what should be used to generate them.
-5. If you generate variation SKUs with slugs, determine if spaces in attribute names should be replaced with underscores instead.
-6. View [documentation on the product page](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for more help if needed.
+
+ 2. You can:
+
+    - upload the entire `woocommerce-product-sku-generator` folder to the `/wp-content/plugins/` directory,
+    - upload the .zip file with the plugin under **Plugins &gt; Add New &gt; Upload**, or
+    - Search for "WooCommerce Product SKU Generator" under Plugins &gt; Add New
+
+ 3. Activate the plugin through the **Plugins** menu in WordPress
+
+ 4. Click the "Configure" plugin link or go to **WooCommerce &gt; Settings &gt; Products** and scroll down to the "Product SKUs". Select which SKUs you'd like to generate and what should be used to generate them.
+
+ 5. If you generate variation SKUs with slugs, determine if spaces in attribute names should be replaced with underscores instead.
+
+ 6. View [documentation on the product page](http://www.skyverge.com/product/woocommerce-product-sku-generator/) for more help if needed.
 
 == Frequently Asked Questions ==
 
@@ -89,19 +98,19 @@ Select the products you'd like to generate SKUs for under **Products**. Go to th
 
 Variation SKUs can be set manually if you're _not_ generating them. **They will be overridden** if your settings are set auto-generate them, even if you try to change them manually. Please check your settings here.
 
-If you'd like to change an SKU for a product, disable the plugin, change the SKU, and update the product. You can re-enable the plugin as needed.
+If you'd like to change a SKU for a product, disable the plugin, change the SKU, and update the product. You can re-enable the plugin as needed.
+
+= I'm using IDs for SKUs. Will they be sequential? =
+
+Roughly, yes. Actually, no. The SKUs will increase as you add more products / variations, but these use the post ID from WordPress (similar to your orders). Each SKU will be higher than the last, but they won't be exactly in order, as other posts (like blog posts, orders or products), also use the same ID counter. Your SKUs will increase, but skip numbers.
 
 = Can I use something other than the product slug to generate the SKUs? =
 
 Yep! Version 2.0 added the ability to use product slugs or IDs.
 
-For more advanced uses, you can use the `wc_sku_generator_sku` filter (v1.2.2+), which passes the parent SKU as the value and the product as a variable, to change what's used as the parent SKU. You can change the variation SKU using the `wc_sku_generator_variation_sku` filter (v2.0.0+).
+For more advanced uses, you can use the `wc_sku_generator_sku` filter, which passes the parent SKU as the value and the product as a variable, to change what's used as the parent SKU. You can change the variation SKU using the `wc_sku_generator_variation_sku` filter.
 
 You **must** use a unique value for SKUs (WooCommerce checks this). For example, you could generate a unique string or number in a custom snippet to use for the SKU with the help of a developer.
-
-= I'm using IDs for SKUs. Will they be sequential? =
-
-Roughly, yes. Actually, no. The SKUs will increase as you add more products / variations, but these use the post ID from WordPress (similar to your orders). Each SKU will be higher than the last, but they won't be exactly in order, as other posts (like blog posts, orders or products), also use the same ID counter. Your SKUs will increase, but skip numbers.
 
 = Sometimes attributes for my variation SKUs aren't in the same order. Can I fix this? =
 
@@ -146,6 +155,9 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 `
 
 == Changelog ==
+
+= 2016.05.31 - version 2.2.0 =
+ * Misc: added support for WooCommerce 2.6
 
 = 2016.01.18 - version 2.1.0 =
  * Feature: adds setting to replace spaces in attribute names with underscores if variation SKUs use them

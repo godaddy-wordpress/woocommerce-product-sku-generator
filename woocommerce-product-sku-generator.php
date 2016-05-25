@@ -5,7 +5,7 @@
  * Description: Automatically generate SKUs for products using the product / variation slug and/or ID
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 2.1.0
+ * Version: 2.2.0
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
@@ -23,12 +23,13 @@
  */
 
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+defined( 'ABSPATH' ) or exit;
 
 
 // Check if WooCommerce is active
-if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
+if ( ! WC_SKU_Generator::is_woocommerce_active() ) {
 	return;
+}
 
 
 // WC version check
@@ -54,9 +55,8 @@ if ( version_compare( get_option( 'woocommerce_db_version' ), '2.2.0', '<' ) ) {
 }
 
 
-// Make sure we're loaded after WC
+// Make sure we're loaded after WC and fire it up!
 function init_wc_sku_generator() {
-	// Fire it up!
 	wc_sku_generator();
 }
 add_action( 'plugins_loaded', 'init_wc_sku_generator' );
@@ -66,15 +66,14 @@ add_action( 'plugins_loaded', 'init_wc_sku_generator' );
  * Plugin Description
  *
  * Generate a SKU for products that is equal to the product slug or product ID.
- * Simple / parent products will have one SKU equal to the slug or ID.
- * Variable products
+ * Simple / parent products can have a SKU equal to the slug or ID.
+ * Variable products can have a SKU that combines the parent SKU + variation ID or attributes
  */
-
 
 class WC_SKU_Generator {
 
 
-	const VERSION = '2.1.0';
+	const VERSION = '2.2.0';
 
 
 	/** @var WC_SKU_Generator single instance of this plugin */
@@ -109,6 +108,9 @@ class WC_SKU_Generator {
 	}
 
 
+	/** Helper methods ***************************************/
+
+
 	/**
 	 * Main Sku Generator Instance, ensures only one instance is/can be loaded
 	 *
@@ -125,6 +127,30 @@ class WC_SKU_Generator {
 
 
 	/**
+	 * Cloning instances is forbidden due to singleton pattern.
+	 *
+	 * @since 2.2.0
+	 */
+	public function __clone() {
+
+		/* translators: Placeholders: %s - plugin name */
+		_doing_it_wrong( __FUNCTION__, sprintf( esc_html__( 'You cannot clone instances of %s.', 'woocommerce-product-sku-generator' ), 'WooCommerce Product SKU Generator' ), '2.2.0' );
+	}
+
+
+	/**
+	 * Unserializing instances is forbidden due to singleton pattern.
+	 *
+	 * @since 2.2.0
+	 */
+	public function __wakeup() {
+
+		/* translators: Placeholders: %s - plugin name */
+		_doing_it_wrong( __FUNCTION__, sprintf( esc_html__( 'You cannot unserialize instances of %s.', 'woocommerce-product-sku-generator' ), 'WooCommerce Product SKU Generator' ), '2.2.0' );
+	}
+
+
+	/**
 	 * Adds plugin page links
 	 *
 	 * @since 2.0.0
@@ -135,6 +161,7 @@ class WC_SKU_Generator {
 
 		$plugin_links = array(
 			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=products' ) . '">' . __( 'Configure', 'woocommerce-product-sku-generator' ) . '</a>',
+			'<a href="https://wordpress.org/plugins/woocommerce-product-sku-generator/faq/">' . __( 'FAQ', 'woocommerce-product-sku-generator' ) . '</a>',
 			'<a href="https://wordpress.org/support/plugin/woocommerce-product-sku-generator">' . __( 'Support', 'woocommerce-product-sku-generator' ) . '</a>',
 		);
 
@@ -151,6 +178,27 @@ class WC_SKU_Generator {
 		// localization
 		load_plugin_textdomain( 'woocommerce-product-sku-generator', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n/languages' );
 	}
+
+
+	/**
+	 * Checks if WooCommerce is active
+	 *
+	 * @since 2.2.0
+	 * @return bool true if WooCommerce is active, false otherwise
+	 */
+	public static function is_woocommerce_active() {
+
+		$active_plugins = (array) get_option( 'active_plugins', array() );
+
+		if ( is_multisite() ) {
+			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+		}
+
+		return in_array( 'woocommerce/woocommerce.php', $active_plugins ) || array_key_exists( 'woocommerce/woocommerce.php', $active_plugins );
+	}
+
+
+	/** Plugin methods ***************************************/
 
 
 	/**
@@ -411,6 +459,9 @@ class WC_SKU_Generator {
 			);
 		}
 	}
+
+
+	/** Lifecycle methods ***************************************/
 
 
 	/**
