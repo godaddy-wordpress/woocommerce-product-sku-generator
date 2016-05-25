@@ -138,7 +138,7 @@ Yes you can! Join in on our [GitHub repository](https://github.com/skyverge/wooc
 
 By default, if you have an attribute name with a space (such as "Burnt Marshmallow" for color), the SKU will use this exact formatting. A SKU for this variation would look like: `parentSKU-Burnt Marshmallow`
 
-If you enable the setting to replace spaces, this will instead look like: `parentSKU-Burnt_Marshmallow` -- this is helpful if your external fulfillment service does not allow spaces in SKUs.
+If you enable the setting to replace spaces, this will instead look like: `parentSKU-Burnt_Marshmallow` or `parentSKU-Burnt-Marshmallow` -- depending on which setting you've chose. This is helpful if your external fulfillment service does not allow spaces in SKUs.
 
 = Attribute Sorting =
 
@@ -157,6 +157,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 == Changelog ==
 
 = 2016.05.31 - version 2.2.0 =
+ * Feature: attribute names can now replace spaces with hyphens in addition to underscores
  * Misc: added support for WooCommerce 2.6
  * Misc: removed support for WooCommerce 2.2
 

@@ -240,9 +240,19 @@ class WC_SKU_Generator {
 
 		if ( 'slugs' === get_option( 'wc_sku_generator_variation' ) ) {
 
-			// replace spaces in attributes with underscores if set
-			if ( 'yes' === get_option( 'wc_sku_generator_attribute_spaces' ) ) {
-				$variation['attributes'] = str_replace( ' ', '_', $variation['attributes'] );
+			// replace spaces in attributes depending on settings
+			switch ( get_option( 'wc_sku_generator_attribute_spaces' ) ) {
+
+				case 'underscore':
+					$variation['attributes'] = str_replace( ' ', '_', $variation['attributes'] );
+					break;
+
+				case 'dash':
+					$variation['attributes'] = str_replace( ' ', '-', $variation['attributes'] );
+					break;
+
+				default:
+					$variation['attributes'];
 			}
 
 			/**
@@ -414,12 +424,20 @@ class WC_SKU_Generator {
 			),
 
 			array(
-				'title'   => __( 'Replace spaces in attributes', 'woocommerce-product-sku-generator' ),
+				'title'    => __( 'Replace spaces in attributes?', 'woocommerce-product-sku-generator' ),
 				/* translators: placeholders are <strong> tags */
-				'desc'    => sprintf( __( 'Replace spaces in attribute names with underscores.%1$sWill update existing variation SKUs when product is saved%2$s.', 'woocommerce-product-sku-generator' ), '<br /><strong>', '</strong>' ),
-				'id'      => 'wc_sku_generator_attribute_spaces',
-				'type'    => 'checkbox',
-				'default' => 'no',
+				'desc'     => sprintf( __( '%1$sWill update existing variation SKUs when product is saved if they contain spaces%2$s.', 'woocommerce-product-sku-generator' ), '<strong>', '</strong>' ),
+				'id'       => 'wc_sku_generator_attribute_spaces',
+				'type'     => 'select',
+				'options'  => array(
+					'no'         => __( 'Do not replace spaces in attribute names.', 'woocommerce-product-sku-generator' ),
+					'underscore' => __( 'Replace spaces with underscores', 'woocommerce-product-sku-generator' ),
+					'dash'       => __( 'Replace spaces with dashes / hyphens', 'woocommerce-product-sku-generator' ),
+				),
+				'default'  => 'no',
+				'class'    => 'wc-enhanced-select chosen_select',
+				'css'      => 'min-width:300px;',
+				'desc_tip' => __( 'Replace spaces in attribute names when used in a SKU.', 'woocommerce-product-sku-generator' ),
 			),
 
 			array(
@@ -527,6 +545,14 @@ class WC_SKU_Generator {
 
 			// Delete the old option now that we've upgraded
 			delete_option( 'wc_sku_generator_select' );
+		}
+
+		// Upgrade to version 2.2.0, this setting was only available in 2.1.0
+		if ( '2.1.0' === $installed_version ) {
+
+			if ( 'yes' === get_option( 'wc_sku_generator_attribute_spaces' ) ) {
+				update_option( 'wc_sku_generator_attribute_spaces', 'underscore' );
+			}
 		}
 
 		// update the installed version option
