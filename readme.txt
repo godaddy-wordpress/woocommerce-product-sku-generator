@@ -66,7 +66,7 @@ This action will also automatically generate the SKUs for product variations if 
 
 > **NOTE that** any time a product is updated, its SKU will be generated, so this may override old SKUs if you update products. This plugin is meant for complete SKU automation, or you can selectively enable / disable it as needed.
 
-1. Be sure you're running WooCommerce 2.2+ in your shop.
+ 1. Be sure you're running WooCommerce 2.3+ in your shop.
 
  2. You can:
 
@@ -158,6 +158,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 
 = 2016.05.31 - version 2.2.0 =
  * Misc: added support for WooCommerce 2.6
+ * Misc: removed support for WooCommerce 2.2
 
 = 2016.01.18 - version 2.1.0 =
  * Feature: adds setting to replace spaces in attribute names with underscores if variation SKUs use them

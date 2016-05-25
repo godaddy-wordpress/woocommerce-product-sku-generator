@@ -33,24 +33,8 @@ if ( ! WC_SKU_Generator::is_woocommerce_active() ) {
 
 
 // WC version check
-if ( version_compare( get_option( 'woocommerce_db_version' ), '2.2.0', '<' ) ) {
-
-	function wc_sku_generator_outdated_version_notice() {
-
-		$message = sprintf(
-			/* translators: %1$s and %2$s are <strong> tags. %3$s and %4$s are <a> tags */
-			esc_html__( '%1$sWooCommerce Product SKU Generator is inactive.%2$s This plugin requires WooCommerce 2.2 or newer. Please %3$supdate WooCommerce to version 2.2 or newer%4$s', 'woocommerce-product-sku-generator' ),
-			'<strong>',
-			'</strong>',
-			'<a href="' . admin_url( 'plugins.php' ) . '">',
-			'&nbsp;&raquo;</a>'
-		);
-
-		echo sprintf( '<div class="error"><p>%s</p></div>', $message );
-	}
-
-	add_action( 'admin_notices', 'wc_sku_generator_outdated_version_notice' );
-
+if ( version_compare( get_option( 'woocommerce_db_version' ), '2.3.0', '<' ) ) {
+	add_action( 'admin_notices', WC_SKU_Generator::render_outdated_wc_version_notice() );
 	return;
 }
 
@@ -195,6 +179,26 @@ class WC_SKU_Generator {
 		}
 
 		return in_array( 'woocommerce/woocommerce.php', $active_plugins ) || array_key_exists( 'woocommerce/woocommerce.php', $active_plugins );
+	}
+
+
+	/**
+	 * Renders a notice when WooCommerce version is outdated
+	 *
+	 * @since 2.2.0
+	 */
+	public static function render_outdated_wc_version_notice() {
+
+		$message = sprintf(
+		/* translators: %1$s and %2$s are <strong> tags. %3$s and %4$s are <a> tags */
+			esc_html__( '%1$sWooCommerce Product SKU Generator is inactive.%2$s This plugin requires WooCommerce 2.3 or newer. Please %3$supdate WooCommerce to version 2.3 or newer%4$s', 'woocommerce-product-sku-generator' ),
+			'<strong>',
+			'</strong>',
+			'<a href="' . admin_url( 'plugins.php' ) . '">',
+			'&nbsp;&raquo;</a>'
+		);
+
+		printf( '<div class="error"><p>%s</p></div>', $message );
 	}
 
 
@@ -348,13 +352,11 @@ class WC_SKU_Generator {
 
 		$updated_settings = array();
 
-		$setting_id = version_compare( WC_VERSION, '2.3', '>=' ) ? 'product_measurement_options' : 'product_data_options';
-
 		foreach ( $settings as $setting ) {
 
 			$updated_settings[] = $setting;
 
-			if ( isset( $setting['id'] ) && $setting_id === $setting['id'] && 'sectionend' === $setting['type'] ) {
+			if ( isset( $setting['id'] ) && 'product_measurement_options' === $setting['id'] && 'sectionend' === $setting['type'] ) {
 
 				$updated_settings = array_merge( $updated_settings, $this->get_settings() );
 			}
