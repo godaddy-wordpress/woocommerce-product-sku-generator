@@ -245,14 +245,12 @@ class WC_SKU_Generator {
 
 				case 'underscore':
 					$variation['attributes'] = str_replace( ' ', '_', $variation['attributes'] );
-					break;
+				break;
 
 				case 'dash':
 					$variation['attributes'] = str_replace( ' ', '-', $variation['attributes'] );
-					break;
-
-				default:
-					$variation['attributes'];
+				break;
+				
 			}
 
 			/**
