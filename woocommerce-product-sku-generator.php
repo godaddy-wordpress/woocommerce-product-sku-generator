@@ -259,7 +259,11 @@ class WC_SKU_Generator {
 				case 'dash':
 					$variation['attributes'] = str_replace( ' ', '-', $variation['attributes'] );
 				break;
-				
+
+				case 'none':
+					$variation['attributes'] = str_replace( ' ', '', $variation['attributes'] );
+				break;
+
 			}
 
 			/**
@@ -461,6 +465,7 @@ class WC_SKU_Generator {
 					'no'         => __( 'Do not replace spaces in attribute names.', 'woocommerce-product-sku-generator' ),
 					'underscore' => __( 'Replace spaces with underscores', 'woocommerce-product-sku-generator' ),
 					'dash'       => __( 'Replace spaces with dashes / hyphens', 'woocommerce-product-sku-generator' ),
+					'none'       => __( 'Remove spaces from attribute names', 'woocommerce-product-sku-generator' ),
 				),
 				'default'  => 'no',
 				'class'    => 'wc-enhanced-select chosen_select',

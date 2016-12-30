@@ -157,6 +157,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 == Changelog ==
 
 = 2017.nn.nn - 2.3.0-dev =
+ * Feature: adds setting to remove spaces from attribute names
  * Misc: bump required WP version to 4.1
  * Misc: added support for WooCommerce 2.7+
  * Misc: removed support for WooCommerce 2.3.x and 2.4.x
