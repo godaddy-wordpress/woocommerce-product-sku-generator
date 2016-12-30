@@ -33,7 +33,7 @@ if ( ! WC_SKU_Generator::is_woocommerce_active() ) {
 
 
 // WC version check
-if ( version_compare( get_option( 'woocommerce_db_version' ), '2.3.0', '<' ) ) {
+if ( version_compare( get_option( 'woocommerce_db_version' ), '2.5.0', '<' ) ) {
 	add_action( 'admin_notices', WC_SKU_Generator::render_outdated_wc_version_notice() );
 	return;
 }
@@ -189,7 +189,7 @@ class WC_SKU_Generator {
 
 		$message = sprintf(
 		/* translators: %1$s and %2$s are <strong> tags. %3$s and %4$s are <a> tags */
-			esc_html__( '%1$sWooCommerce Product SKU Generator is inactive.%2$s This plugin requires WooCommerce 2.3 or newer. Please %3$supdate WooCommerce to version 2.3 or newer%4$s', 'woocommerce-product-sku-generator' ),
+			esc_html__( '%1$sWooCommerce Product SKU Generator is inactive.%2$s This plugin requires WooCommerce 2.5 or newer. Please %3$supdate WooCommerce to version 2.5 or newer%4$s', 'woocommerce-product-sku-generator' ),
 			'<strong>',
 			'</strong>',
 			'<a href="' . admin_url( 'plugins.php' ) . '">',
@@ -274,7 +274,13 @@ class WC_SKU_Generator {
 				ksort( $variation['attributes'] );
 			}
 
-			$separator = apply_filters( 'wc_sku_generator_attribute_separator', '-' );
+			/**
+			 * Filters the separator used between variation attributes
+			 *
+			 * @since 2.0.0
+			 * @param string $separator the separator character
+			 */
+			$separator = apply_filters( 'wc_sku_generator_attribute_separator', $this->get_sku_separator() );
 
 			$variation_sku = implode( $variation['attributes'], $separator );
 			$variation_sku = str_replace( 'attribute_', '', $variation_sku );
@@ -318,16 +324,25 @@ class WC_SKU_Generator {
 			foreach ( $product->get_available_variations() as $variation ) {
 
 				$variation_sku = $this->generate_variation_sku( $variation );
-				$sku = $product_sku . '-' . $variation_sku;
+				$sku           = $product_sku . $this->get_sku_separator() . $variation_sku;
 
-				$sku =  apply_filters( 'wc_sku_generator_variation_sku_format', $sku, $product_sku, $variation_sku );
+				/**
+				 * Filters the entire generated SKU for a variable product
+				 *
+				 * @since 2.0.0
+				 * @param string $sku the complete generated SKU
+				 * @param string $product_sku the portion of the SKU for the parent product
+				 * @param string $variation_sku the portion of the SKU for the variation
+				 */
+				$sku = apply_filters( 'wc_sku_generator_variation_sku_format', $sku, $product_sku, $variation_sku );
+
 				update_post_meta( $variation['variation_id'], '_sku', $sku );
 			}
 		}
 
 		// Save the SKU for simple / external / parent products if we should
 		if (  'never' !== get_option( 'wc_sku_generator_simple' ) )  {
-			update_post_meta( $product->id, '_sku', $product_sku );
+			update_post_meta( $product->get_id(), '_sku', $product_sku );
 		}
 	}
 
@@ -406,7 +421,7 @@ class WC_SKU_Generator {
 
 			array(
 				'title'    => __( 'Generate Simple / Parent SKUs:', 'woocommerce-product-sku-generator' ),
-				'desc'     => __( 'Generating simple / parent SKUs disables the SKU field while editing products.', 'woocommerce-product-sku-generator' ),
+				'desc'     => '<br />' . __( 'Generating simple / parent SKUs disables the SKU field while editing products.', 'woocommerce-product-sku-generator' ),
 				'id'       => 'wc_sku_generator_simple',
 				'type'     => 'select',
 				'options'  => array(
@@ -439,7 +454,7 @@ class WC_SKU_Generator {
 			array(
 				'title'    => __( 'Replace spaces in attributes?', 'woocommerce-product-sku-generator' ),
 				/* translators: placeholders are <strong> tags */
-				'desc'     => sprintf( __( '%1$sWill update existing variation SKUs when product is saved if they contain spaces%2$s.', 'woocommerce-product-sku-generator' ), '<strong>', '</strong>' ),
+				'desc'     => '<br />' . sprintf( __( '%1$sWill update existing variation SKUs when product is saved if they contain spaces%2$s.', 'woocommerce-product-sku-generator' ), '<strong>', '</strong>' ),
 				'id'       => 'wc_sku_generator_attribute_spaces',
 				'type'     => 'select',
 				'options'  => array(
@@ -461,6 +476,24 @@ class WC_SKU_Generator {
 		);
 
 		return $wc_sku_generator_settings;
+	}
+
+
+	/**
+	 * Get the separator to use between parent / variation SKUs, along with variation attributes
+	 *
+	 * @since 2.3.0-dev
+	 * @return string $separator the separator character
+	 */
+	private function get_sku_separator() {
+
+		/**
+		 * Filters the separator used between parent / variation SKUs or between variation attributes
+		 *
+		 * @since 2.3.0-dev
+		 * @param string $separator the separator character
+		 */
+		return apply_filters( 'wc_sku_generator_sku_separator', '-' );
 	}
 
 

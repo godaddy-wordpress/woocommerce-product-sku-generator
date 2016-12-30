@@ -2,10 +2,10 @@
 Contributors: skyverge, beka.rice
 Tags: woocommerce, sku, product sku
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
-Requires at least: 4.0
-Tested up to: 4.5.2
-Requires WooCommerce at least: 2.3
-Tested WooCommerce up to: 2.6
+Requires at least: 4.1
+Tested up to: 4.7.0
+Requires WooCommerce at least: 2.5
+Tested WooCommerce up to: 2.7
 Stable Tag: 2.3.0-dev
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -157,7 +157,9 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 == Changelog ==
 
 = 2017.nn.nn - 2.3.0-dev =
+ * Misc: bump required WP version to 4.1
  * Misc: added support for WooCommerce 2.7+
+ * Misc: removed support for WooCommerce 2.3.x and 2.4.x
 
 = 2016.05.31 - version 2.2.0 =
  * Feature: attribute names can now replace spaces with hyphens in addition to underscores
