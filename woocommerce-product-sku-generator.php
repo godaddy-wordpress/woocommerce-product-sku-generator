@@ -332,7 +332,12 @@ class WC_SKU_Generator {
 		// Only generate / save variation SKUs when we should
 		if ( $product->is_type( 'variable' ) && 'never' !== get_option( 'wc_sku_generator_variation' ) ) {
 
-			foreach ( $product->get_available_variations() as $variation ) {
+			$variations = $this->get_all_variations( $product->get_id() );
+
+			foreach ( $variations as $variation_id ) {
+
+				$product_variation = wc_get_product( $variation_id );
+				$variation         = $product->get_available_variation( $product_variation );
 
 				$variation_sku = $this->generate_variation_sku( $variation );
 				$sku           = $product_sku . $this->get_sku_separator() . $variation_sku;
@@ -352,7 +357,7 @@ class WC_SKU_Generator {
 		}
 
 		// Save the SKU for simple / external / parent products if we should
-		if (  'never' !== get_option( 'wc_sku_generator_simple' ) )  {
+		if ( 'never' !== get_option( 'wc_sku_generator_simple' ) )  {
 			update_post_meta( $product->get_id(), '_sku', $product_sku );
 		}
 	}
@@ -493,7 +498,47 @@ class WC_SKU_Generator {
 
 
 	/**
-	 * Get the separator to use between parent / variation SKUs, along with variation attributes
+	 * Manually get all variations for a product because WC core functions only
+	 *  give us "published" variations, and out of stock ones are "private". ಠ_ಠ
+	 *
+	 * @since 2.3.0-dev
+	 * @param int $product_id the ID for the parent product
+	 * @return array IDs of all variations for the product
+	 */
+	protected function get_all_variations( $product_id ) {
+
+		$variations = get_transient( 'wc_sku_generator_variations_' . $product_id );
+
+		if ( $variations && is_array( $variations ) ) {
+			return $variations;
+		}
+
+		/**
+		 * Filters variation query args to get variations for a variable product.
+		 *
+		 * @since 2.3.0-dev
+		 * @param array $args get_posts args
+		 */
+		$args = apply_filters( 'wc_sku_generator_variation_query_args', array(
+			'post_parent' => $product_id,
+			'post_type'   => 'product_variation',
+			'orderby'     => 'menu_order',
+			'order'       => 'ASC',
+			'fields'      => 'ids',
+			'post_status' => array( 'publish', 'private' ),
+			'numberposts' => -1,
+		) );
+
+		$variations = get_posts( $args );
+
+		set_transient( 'wc_sku_generator_variations_' . $product_id, $variations, DAY_IN_SECONDS * 7 );
+
+		return $variations;
+	}
+
+
+	/**
+	 * Get the separator to use between parent / variation SKUs, along with variation attributes.
 	 *
 	 * @since 2.3.0-dev
 	 * @return string $separator the separator character
