@@ -1,9 +1,9 @@
 === WooCommerce Product SKU Generator ===
 Contributors: skyverge, beka.rice
-Tags: woocommerce, sku, product sku
+Tags: woocommerce, sku, product sku, sku generator
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 4.1
-Tested up to: 4.7.0
+Tested up to: 4.7.3
 Requires WooCommerce at least: 2.5
 Tested WooCommerce up to: 2.7
 Stable Tag: 2.3.0-dev
@@ -14,7 +14,7 @@ Automatically generate WooCommerce product SKUs from the product / attribute slu
 
 == Description ==
 
-> **Requires: WooCommerce 2.3** or newer
+> **Requires: WooCommerce 2.5** or newer
 
 Automatically generate a SKU for parent / simple products, variations, or both when the product is published or updated.
 
@@ -66,7 +66,7 @@ This action will also automatically generate the SKUs for product variations if 
 
 > **NOTE that** any time a product is updated, its SKU will be generated, so this may override old SKUs if you update products. This plugin is meant for complete SKU automation, or you can selectively enable / disable it as needed.
 
- 1. Be sure you're running WooCommerce 2.3+ in your shop.
+ 1. Be sure you're running WooCommerce 2.5+ in your shop.
 
  2. You can:
 
@@ -114,7 +114,7 @@ You **must** use a unique value for SKUs (WooCommerce checks this). For example,
 
 = Sometimes attributes for my variation SKUs aren't in the same order. Can I fix this? =
 
-We've seen this happen in only one situation, so we have a filter rather than a setting for this. Please see the instructions in [Other Notes](https://wordpress.org/plugins/woocommerce-product-sku-generator/other_notes/) to force the attribute order.
+We've seen this happen in only one situation, so we have a filter + code snippet rather than a setting for this. Please see the instructions in [Other Notes](https://wordpress.org/plugins/woocommerce-product-sku-generator/other_notes/) to force the attribute order.
 
 = This is handy! Can I contribute? =
 
