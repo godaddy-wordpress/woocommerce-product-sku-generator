@@ -5,7 +5,7 @@
  * Description: Automatically generate SKUs for products using the product / variation slug and/or ID
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 2.3.0-dev
+ * Version: 2.3.0
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
@@ -65,7 +65,7 @@ add_action( 'plugins_loaded', 'wc_sku_generator' );
 class WC_SKU_Generator {
 
 
-	const VERSION = '2.3.0-dev';
+	const VERSION = '2.3.0';
 
 	/** @var WC_SKU_Generator single instance of this plugin */
 	protected static $instance;
@@ -507,7 +507,7 @@ class WC_SKU_Generator {
 	 * Manually get all variations for a product because WC core functions only
 	 *  give us "published" variations, and out of stock ones are "private". ಠ_ಠ
 	 *
-	 * @since 2.3.0-dev
+	 * @since 2.3.0
 	 * @param int $product_id the ID for the parent product
 	 * @return array IDs of all variations for the product
 	 */
@@ -522,7 +522,7 @@ class WC_SKU_Generator {
 		/**
 		 * Filters variation query args to get variations for a variable product.
 		 *
-		 * @since 2.3.0-dev
+		 * @since 2.3.0
 		 * @param array $args get_posts args
 		 */
 		$args = apply_filters( 'wc_sku_generator_variation_query_args', array(
@@ -546,7 +546,7 @@ class WC_SKU_Generator {
 	/**
 	 * Get the separator to use between parent / variation SKUs, along with variation attributes.
 	 *
-	 * @since 2.3.0-dev
+	 * @since 2.3.0
 	 * @return string $separator the separator character
 	 */
 	private function get_sku_separator() {
@@ -554,7 +554,7 @@ class WC_SKU_Generator {
 		/**
 		 * Filters the separator used between parent / variation SKUs or between variation attributes
 		 *
-		 * @since 2.3.0-dev
+		 * @since 2.3.0
 		 * @param string $separator the separator character
 		 */
 		return apply_filters( 'wc_sku_generator_sku_separator', '-' );

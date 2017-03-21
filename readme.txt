@@ -4,9 +4,9 @@ Tags: woocommerce, sku, product sku, sku generator
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 4.1
 Tested up to: 4.7.3
-Stable Tag: 2.3.0-dev
 WC requires at least: 2.5
 WC tested up to: 3.0
+Stable Tag: 2.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -156,7 +156,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 
 == Changelog ==
 
-= 2017.nn.nn - 2.3.0-dev =
+= 2017.03.23 - version 2.3.0 =
  * Feature: adds setting to remove spaces from attribute names
  * Fix: SKUs are now set for out of stock variations
  * Misc: bump required WP version to 4.1
