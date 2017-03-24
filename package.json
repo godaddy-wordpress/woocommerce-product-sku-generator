@@ -1,14 +1,14 @@
 {
 	"name": "woocommerce-product-sku-generator",
-	"version": "1.1.1",
-	"author": "Beka Rice",
-	"homepage": "http://bekarice.com",
+	"version": "2.3.0",
+	"author": "SkyVerge",
+	"homepage": "http://skyverge.com",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/bekarice/woocommerce-product-sku-generator.git"
+		"url": "https://github.com/skyverge/woocommerce-product-sku-generator.git"
 	},
 	"bugs": {
-		"url": "https://github.com/bekarice/woocommerce-product-sku-generator/issues"
+		"url": "https://github.com/skyverge/woocommerce-product-sku-generator/issues"
 	},
 	"engines": {
 		"node": ">= 0.10.0"

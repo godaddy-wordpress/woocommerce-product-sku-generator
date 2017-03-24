@@ -1,12 +1,12 @@
 === WooCommerce Product SKU Generator ===
 Contributors: skyverge, beka.rice
-Tags: woocommerce, sku, product sku
+Tags: woocommerce, sku, product sku, sku generator
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
-Requires at least: 4.0
-Tested up to: 4.5.2
-Requires WooCommerce at least: 2.3
-Tested WooCommerce up to: 2.6
-Stable Tag: 2.2.0
+Requires at least: 4.1
+Tested up to: 4.7.3
+WC requires at least: 2.5
+WC tested up to: 3.0
+Stable Tag: 2.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ Automatically generate WooCommerce product SKUs from the product / attribute slu
 
 == Description ==
 
-> **Requires: WooCommerce 2.3** or newer
+> **Requires: WooCommerce 2.5** or newer
 
 Automatically generate a SKU for parent / simple products, variations, or both when the product is published or updated.
 
@@ -24,7 +24,7 @@ You can also selectively enable and disable the plugin if you don't want to over
 
 = Automated SKUs =
 
-SKUs for simple, external, or parent products can be generated from the product's slug (name) or ID. For example, a product with the slug `wp-tee-shirt` can have a SKU of `wp-tee-shirt` or `192` (whatever the product's ID is). This SKU will be generated any time the product is published or updated.
+SKUs for simple, external, or parent products can be generated from the product's slug (hyphenated name) or ID. For example, a product with the slug `wp-tee-shirt` can have a SKU of `wp-tee-shirt` or `192` (whatever the product's ID is). This SKU will be generated any time the product is published or updated.
 
 If the product is a variable product, this plugin can also generate SKUs for the product variations if desired (these typically inherit the parent SKU). Variation SKUs can either append attribute slugs or variation IDs for each variation to the parent SKU.
 
@@ -37,9 +37,9 @@ You can also manually set simple / parent SKUs, or manually set the variation SK
 This plugin provides options to:
 
  - automatically generate simple / parent product SKUs when the product is published or updated
- - generate simple / parent product SKUs using the product slug or ID (filterable for developers)
+ - generate simple / parent product SKUs using the product slug or ID
  - automatically generate SKUs for product variations when the product is published or updated
- - generate variation SKUs using the attribute slugs or variation ID (filterable for developers)
+ - generate variation SKUs using the attribute slugs or variation ID
  - use the bulk product update action to easily force SKU generation for more than one product -- handy to bulk-generate SKUs for products created before installing this plugin
 
 = SKUs for all product types =
@@ -66,7 +66,7 @@ This action will also automatically generate the SKUs for product variations if 
 
 > **NOTE that** any time a product is updated, its SKU will be generated, so this may override old SKUs if you update products. This plugin is meant for complete SKU automation, or you can selectively enable / disable it as needed.
 
- 1. Be sure you're running WooCommerce 2.3+ in your shop.
+ 1. Be sure you're running WooCommerce 2.5+ in your shop.
 
  2. You can:
 
@@ -114,7 +114,7 @@ You **must** use a unique value for SKUs (WooCommerce checks this). For example,
 
 = Sometimes attributes for my variation SKUs aren't in the same order. Can I fix this? =
 
-We've seen this happen in only one situation, so we have a filter rather than a setting for this. Please see the instructions in [Other Notes](https://wordpress.org/plugins/woocommerce-product-sku-generator/other_notes/) to force the attribute order.
+We've seen this happen in only one situation, so we have a filter + code snippet rather than a setting for this. Please see the instructions in [Other Notes](https://wordpress.org/plugins/woocommerce-product-sku-generator/other_notes/) to force the attribute order.
 
 = This is handy! Can I contribute? =
 
@@ -155,6 +155,13 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 `
 
 == Changelog ==
+
+= 2017.03.23 - version 2.3.0 =
+ * Feature: adds setting to remove spaces from attribute names
+ * Fix: SKUs are now set for out of stock variations
+ * Misc: bump required WP version to 4.1
+ * Misc: added support for WooCommerce 3.0
+ * Misc: removed support for WooCommerce 2.3.x and 2.4.x
 
 = 2016.05.31 - version 2.2.0 =
  * Feature: attribute names can now replace spaces with hyphens in addition to underscores
