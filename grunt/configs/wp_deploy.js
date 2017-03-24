@@ -9,7 +9,7 @@ module.exports = function( grunt ) {
 		deploy: {
 			options: {
 				plugin_slug: grunt.option( 'plugin-slug' ),
-				svn_user: 'beka.rice',
+				svn_user: 'SkyVerge',
 				build_dir: 'build',
 				assets_dir: 'wp-assets'
 			}
