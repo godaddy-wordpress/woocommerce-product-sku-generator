@@ -356,7 +356,7 @@ class WC_SKU_Generator {
 				 */
 				$sku = apply_filters( 'wc_sku_generator_variation_sku_format', $sku, $product_sku, $variation_sku );
 
-				update_post_meta( $variation['variation_id'], '_sku', $sku );
+				update_post_meta( $variation_id, '_sku', $sku );
 			}
 		}
 
@@ -513,12 +513,6 @@ class WC_SKU_Generator {
 	 */
 	protected function get_all_variations( $product_id ) {
 
-		$variations = get_transient( 'wc_sku_generator_variations_' . $product_id );
-
-		if ( $variations && is_array( $variations ) ) {
-			return $variations;
-		}
-
 		/**
 		 * Filters variation query args to get variations for a variable product.
 		 *
@@ -535,11 +529,7 @@ class WC_SKU_Generator {
 			'numberposts' => -1,
 		) );
 
-		$variations = get_posts( $args );
-
-		set_transient( 'wc_sku_generator_variations_' . $product_id, $variations, DAY_IN_SECONDS * 7 );
-
-		return $variations;
+		return get_posts( $args );
 	}
 
 
