@@ -157,6 +157,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 == Changelog ==
 
 = 2017.nn.nn - version 2.3.2-dev =
+ * Tweak: Disable variation SKU inputs when being generated
  * Fix: PHP warning when WooCommerce is outdated
 
 = 2017.03.27 - version 2.3.1 =
