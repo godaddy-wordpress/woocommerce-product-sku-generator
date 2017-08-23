@@ -3,10 +3,10 @@ Contributors: skyverge, beka.rice
 Tags: woocommerce, sku, product sku, sku generator
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 4.1
-Tested up to: 4.7.3
+Tested up to: 4.8
 WC requires at least: 2.5
-WC tested up to: 3.0
-Stable Tag: 2.3.1
+WC tested up to: 3.1.1
+Stable Tag: 2.3.2-dev
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -155,6 +155,10 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 `
 
 == Changelog ==
+
+= 2017.nn.nn - version 2.3.2-dev =
+ * Tweak: Disable variation SKU inputs when being generated
+ * Fix: PHP warning when WooCommerce is outdated
 
 = 2017.03.27 - version 2.3.1 =
  * Fix: Skip trying to generate a SKU for removed variations, which will cause errors
