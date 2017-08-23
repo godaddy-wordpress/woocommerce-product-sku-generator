@@ -6,7 +6,7 @@ Requires at least: 4.1
 Tested up to: 4.8
 WC requires at least: 2.5
 WC tested up to: 3.1.1
-Stable Tag: 2.3.2-dev
+Stable Tag: 2.3.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -156,7 +156,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 
 == Changelog ==
 
-= 2017.nn.nn - version 2.3.2-dev =
+= 2017.08.22 - version 2.3.2 =
  * Tweak: Disable variation SKU inputs when being generated
  * Fix: PHP warning when WooCommerce is outdated
 
