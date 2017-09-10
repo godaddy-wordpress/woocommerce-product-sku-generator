@@ -6,7 +6,7 @@ Requires at least: 4.1
 Tested up to: 4.8.1
 WC requires at least: 2.5
 WC tested up to: 3.2.0
-Stable Tag: 2.3.3-dev
+Stable Tag: 2.3.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -156,7 +156,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 
 == Changelog ==
 
-= 2017.09.06 - version 2.3.3-dev =
+= 2017.09.10 - version 2.3.3 =
  * Tweak - POST variable SKUs when disabled to ensure plugins checking for this specifically find it
 
 = 2017.08.22 - version 2.3.2 =
