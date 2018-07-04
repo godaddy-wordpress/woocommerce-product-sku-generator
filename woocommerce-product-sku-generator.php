@@ -5,11 +5,11 @@
  * Description: Automatically generate SKUs for products using the product / variation slug and/or ID
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 2.3.3
+ * Version: 2.3.4-dev.1
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
- * Copyright: (c) 2014-2017 SkyVerge, Inc. (info@skyverge.com)
+ * Copyright: (c) 2014-2018 SkyVerge, Inc. (info@skyverge.com)
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -17,9 +17,11 @@
  * @package   WC-Product-SKU-Generator
  * @author    SkyVerge
  * @category  Admin
- * @copyright Copyright (c) 2014-2017, SkyVerge, Inc.
+ * @copyright Copyright (c) 2014-2018, SkyVerge, Inc.
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
  *
+ * WC requires at least: 2.6.14
+ * WC tested up to: 3.4.3
  */
 
 defined( 'ABSPATH' ) or exit;
