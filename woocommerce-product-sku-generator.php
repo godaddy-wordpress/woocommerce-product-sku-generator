@@ -42,13 +42,8 @@ defined( 'ABSPATH' ) or exit;
  * `wc_sku_generator_attribute_spaces` - determines how spaces in attribute names are treated / replaced
  */
 
-// Check if WooCommerce is active
-if ( ! WC_SKU_Generator::is_woocommerce_active() ) {
-	return;
-}
-
 // WC version check
-if ( version_compare( get_option( 'woocommerce_db_version' ), '2.5.0', '<' ) ) {
+if ( ! WC_SKU_Generator::is_plugin_active('woocommerce.php' ) || version_compare( get_option( 'woocommerce_db_version' ), WC_SKU_Generator::MIN_WOOCOMMERCE_VERSION, '<' ) ) {
 	add_action( 'admin_notices', array( 'WC_SKU_Generator', 'render_outdated_wc_version_notice' ) );
 	return;
 }
@@ -67,7 +62,11 @@ add_action( 'plugins_loaded', 'wc_sku_generator' );
 class WC_SKU_Generator {
 
 
-	const VERSION = '2.3.3';
+	/** plugin version number */
+	const VERSION = '2.3.4-dev.1';
+
+	/** required WooCommerce version number */
+	const MIN_WOOCOMMERCE_VERSION = '2.6.14';
 
 	/** @var WC_SKU_Generator single instance of this plugin */
 	protected static $instance;
@@ -167,8 +166,8 @@ class WC_SKU_Generator {
 
 		$plugin_links = array(
 			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=products' ) . '">' . __( 'Configure', 'woocommerce-product-sku-generator' ) . '</a>',
-			'<a href="https://wordpress.org/plugins/woocommerce-product-sku-generator/faq/">' . __( 'FAQ', 'woocommerce-product-sku-generator' ) . '</a>',
-			'<a href="https://wordpress.org/support/plugin/woocommerce-product-sku-generator">' . __( 'Support', 'woocommerce-product-sku-generator' ) . '</a>',
+			'<a href="https://wordpress.org/plugins/woocommerce-product-sku-generator/faq/" target="_blank">' . __( 'FAQ', 'woocommerce-product-sku-generator' ) . '</a>',
+			'<a href="https://wordpress.org/support/plugin/woocommerce-product-sku-generator" target="_blank">' . __( 'Support', 'woocommerce-product-sku-generator' ) . '</a>',
 		);
 
 		return array_merge( $plugin_links, $links );
@@ -190,17 +189,52 @@ class WC_SKU_Generator {
 	 * Checks if WooCommerce is active.
 	 *
 	 * @since 2.2.0
+	 * @deprecated 2.3.4-dev.1
+	 *
 	 * @return bool true if WooCommerce is active, false otherwise
 	 */
 	public static function is_woocommerce_active() {
 
+		_deprecated_function( 'WC_SKU_Generator::is_woocommerce_active', '2.3.4-dev.1', 'WC_SKU_Generator::is_plugin_active' );
+		return self::is_plugin_active( 'woocommerce.php' );
+	}
+
+
+	/**
+	 * Helper function to determine whether a plugin is active.
+	 *
+	 * @since 2.3.4-dev.1
+	 *
+	 * @param string $plugin_name plugin name, as the plugin-filename.php
+	 * @return boolean true if the named plugin is installed and active
+	 */
+	public static function is_plugin_active( $plugin_name ) {
+
 		$active_plugins = (array) get_option( 'active_plugins', array() );
 
 		if ( is_multisite() ) {
-			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+			$active_plugins = array_merge( $active_plugins, array_keys( get_site_option( 'active_sitewide_plugins', array() ) ) );
 		}
 
-		return in_array( 'woocommerce/woocommerce.php', $active_plugins ) || array_key_exists( 'woocommerce/woocommerce.php', $active_plugins );
+		$plugin_filenames = array();
+
+		foreach ( $active_plugins as $plugin ) {
+
+			if ( false !== strpos( $plugin, '/' ) ) {
+
+				// normal plugin name (plugin-dir/plugin-filename.php)
+				list( , $filename ) = explode( '/', $plugin );
+
+			} else {
+
+				// no directory, just plugin file
+				$filename = $plugin;
+			}
+
+			$plugin_filenames[] = $filename;
+		}
+
+		return in_array( $plugin_name, $plugin_filenames );
 	}
 
 
@@ -212,10 +246,11 @@ class WC_SKU_Generator {
 	public static function render_outdated_wc_version_notice() {
 
 		$message = sprintf(
-			/* translators: Placeholders: %1$s <strong>, %2$s - </strong>, %3$s and %5$s - <a> tags, %4$s - </a> */
-			esc_html__( '%1$sWooCommerce Product SKU Generator is inactive.%2$s This plugin requires WooCommerce 2.5 or newer. Please %3$supdate WooCommerce%4$s or %5$srun the WooCommerce database upgrade%4$s.', 'woocommerce-product-sku-generator' ),
+			/* translators: Placeholders: %1$s <strong>, %2$s - </strong>, %3$s - version number, %4$s + %6$s - <a> tags, %5$s - </a> */
+			esc_html__( '%1$sWooCommerce Product SKU Generator is inactive.%2$s This plugin requires WooCommerce %3$s or newer. Please %4$supdate WooCommerce%5$s or %6$srun the WooCommerce database upgrade%5$s.', 'woocommerce-product-sku-generator' ),
 			'<strong>',
 			'</strong>',
+			self::MIN_WOOCOMMERCE_VERSION,
 			'<a href="' . admin_url( 'plugins.php' ) . '">',
 			'</a>',
 			'<a href="' . admin_url( 'plugins.php?do_update_woocommerce=true' ) . '">'
@@ -290,7 +325,6 @@ class WC_SKU_Generator {
 				case 'none':
 					$variation['attributes'] = str_replace( ' ', '', $variation['attributes'] );
 				break;
-
 			}
 
 			/**

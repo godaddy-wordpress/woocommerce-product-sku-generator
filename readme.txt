@@ -12,7 +12,7 @@ Automatically generate WooCommerce product SKUs from the product / attribute slu
 
 == Description ==
 
-> **Requires: WooCommerce 2.5** or newer
+> **Requires: WooCommerce 2.6.14** or newer
 
 Automatically generate a SKU for parent / simple products, variations, or both when the product is published or updated.
 
@@ -155,6 +155,8 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 == Changelog ==
 
 = 2018.nn.nn - version 2.3.4-dev.1 =
+ * Misc - Remove support for WooCommerce 2.5
+
 = 2017.09.10 - version 2.3.3 =
  * Tweak - POST variable SKUs when disabled to ensure plugins checking for this specifically find it
 
