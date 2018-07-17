@@ -5,7 +5,7 @@
  * Description: Automatically generate SKUs for products using the product / variation slug and/or ID
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 2.3.4-dev.1
+ * Version: 2.3.4
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
@@ -63,7 +63,7 @@ class WC_SKU_Generator {
 
 
 	/** plugin version number */
-	const VERSION = '2.3.4-dev.1';
+	const VERSION = '2.3.4';
 
 	/** required WooCommerce version number */
 	const MIN_WOOCOMMERCE_VERSION = '2.6.14';
@@ -188,7 +188,7 @@ class WC_SKU_Generator {
 	/**
 	 * Helper method to get the version of the currently installed WooCommerce
 	 *
-	 * @since 2.3.4-dev.1
+	 * @since 2.3.4
 	 *
 	 * @return string woocommerce version number or null
 	 */
@@ -200,7 +200,7 @@ class WC_SKU_Generator {
 	/**
 	 * Returns true if the installed version of WooCommerce is 3.0 or greater
 	 *
-	 * @since 2.3.4-dev.1
+	 * @since 2.3.4
 	 *
 	 * @return boolean true if the installed version of WooCommerce is 3.0 or greater
 	 */
@@ -213,13 +213,13 @@ class WC_SKU_Generator {
 	 * Checks if WooCommerce is active.
 	 *
 	 * @since 2.2.0
-	 * @deprecated 2.3.4-dev.1
+	 * @deprecated 2.3.4
 	 *
 	 * @return bool true if WooCommerce is active, false otherwise
 	 */
 	public static function is_woocommerce_active() {
 
-		_deprecated_function( 'WC_SKU_Generator::is_woocommerce_active', '2.3.4-dev.1', 'WC_SKU_Generator::is_plugin_active' );
+		_deprecated_function( 'WC_SKU_Generator::is_woocommerce_active', '2.3.4', 'WC_SKU_Generator::is_plugin_active' );
 		return self::is_plugin_active( 'woocommerce.php' );
 	}
 
@@ -227,7 +227,7 @@ class WC_SKU_Generator {
 	/**
 	 * Helper function to determine whether a plugin is active.
 	 *
-	 * @since 2.3.4-dev.1
+	 * @since 2.3.4
 	 *
 	 * @param string $plugin_name plugin name, as the plugin-filename.php
 	 * @return boolean true if the named plugin is installed and active
