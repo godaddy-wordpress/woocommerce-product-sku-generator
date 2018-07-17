@@ -5,11 +5,11 @@
  * Description: Automatically generate SKUs for products using the product / variation slug and/or ID
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 2.3.3
+ * Version: 2.3.4-dev.1
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
- * Copyright: (c) 2014-2017 SkyVerge, Inc. (info@skyverge.com)
+ * Copyright: (c) 2014-2018 SkyVerge, Inc. (info@skyverge.com)
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -17,9 +17,11 @@
  * @package   WC-Product-SKU-Generator
  * @author    SkyVerge
  * @category  Admin
- * @copyright Copyright (c) 2014-2017, SkyVerge, Inc.
+ * @copyright Copyright (c) 2014-2018, SkyVerge, Inc.
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
  *
+ * WC requires at least: 2.6.14
+ * WC tested up to: 3.4.3
  */
 
 defined( 'ABSPATH' ) or exit;
@@ -40,13 +42,8 @@ defined( 'ABSPATH' ) or exit;
  * `wc_sku_generator_attribute_spaces` - determines how spaces in attribute names are treated / replaced
  */
 
-// Check if WooCommerce is active
-if ( ! WC_SKU_Generator::is_woocommerce_active() ) {
-	return;
-}
-
 // WC version check
-if ( version_compare( get_option( 'woocommerce_db_version' ), '2.5.0', '<' ) ) {
+if ( ! WC_SKU_Generator::is_plugin_active('woocommerce.php' ) || version_compare( get_option( 'woocommerce_db_version' ), WC_SKU_Generator::MIN_WOOCOMMERCE_VERSION, '<' ) ) {
 	add_action( 'admin_notices', array( 'WC_SKU_Generator', 'render_outdated_wc_version_notice' ) );
 	return;
 }
@@ -65,7 +62,11 @@ add_action( 'plugins_loaded', 'wc_sku_generator' );
 class WC_SKU_Generator {
 
 
-	const VERSION = '2.3.3';
+	/** plugin version number */
+	const VERSION = '2.3.4-dev.1';
+
+	/** required WooCommerce version number */
+	const MIN_WOOCOMMERCE_VERSION = '2.6.14';
 
 	/** @var WC_SKU_Generator single instance of this plugin */
 	protected static $instance;
@@ -165,8 +166,8 @@ class WC_SKU_Generator {
 
 		$plugin_links = array(
 			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=products' ) . '">' . __( 'Configure', 'woocommerce-product-sku-generator' ) . '</a>',
-			'<a href="https://wordpress.org/plugins/woocommerce-product-sku-generator/faq/">' . __( 'FAQ', 'woocommerce-product-sku-generator' ) . '</a>',
-			'<a href="https://wordpress.org/support/plugin/woocommerce-product-sku-generator">' . __( 'Support', 'woocommerce-product-sku-generator' ) . '</a>',
+			'<a href="https://wordpress.org/plugins/woocommerce-product-sku-generator/faq/" target="_blank">' . __( 'FAQ', 'woocommerce-product-sku-generator' ) . '</a>',
+			'<a href="https://wordpress.org/support/plugin/woocommerce-product-sku-generator" target="_blank">' . __( 'Support', 'woocommerce-product-sku-generator' ) . '</a>',
 		);
 
 		return array_merge( $plugin_links, $links );
@@ -185,20 +186,79 @@ class WC_SKU_Generator {
 
 
 	/**
+	 * Helper method to get the version of the currently installed WooCommerce
+	 *
+	 * @since 2.3.4-dev.1
+	 *
+	 * @return string woocommerce version number or null
+	 */
+	private static function get_wc_version() {
+		return defined( 'WC_VERSION' ) && WC_VERSION ? WC_VERSION : null;
+	}
+
+
+	/**
+	 * Returns true if the installed version of WooCommerce is 3.0 or greater
+	 *
+	 * @since 2.3.4-dev.1
+	 *
+	 * @return boolean true if the installed version of WooCommerce is 3.0 or greater
+	 */
+	private static function is_wc_version_gte_3_0() {
+		return self::get_wc_version() && version_compare( self::get_wc_version(), '3.0', '>=' );
+	}
+
+
+	/**
 	 * Checks if WooCommerce is active.
 	 *
 	 * @since 2.2.0
+	 * @deprecated 2.3.4-dev.1
+	 *
 	 * @return bool true if WooCommerce is active, false otherwise
 	 */
 	public static function is_woocommerce_active() {
 
+		_deprecated_function( 'WC_SKU_Generator::is_woocommerce_active', '2.3.4-dev.1', 'WC_SKU_Generator::is_plugin_active' );
+		return self::is_plugin_active( 'woocommerce.php' );
+	}
+
+
+	/**
+	 * Helper function to determine whether a plugin is active.
+	 *
+	 * @since 2.3.4-dev.1
+	 *
+	 * @param string $plugin_name plugin name, as the plugin-filename.php
+	 * @return boolean true if the named plugin is installed and active
+	 */
+	public static function is_plugin_active( $plugin_name ) {
+
 		$active_plugins = (array) get_option( 'active_plugins', array() );
 
 		if ( is_multisite() ) {
-			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+			$active_plugins = array_merge( $active_plugins, array_keys( get_site_option( 'active_sitewide_plugins', array() ) ) );
 		}
 
-		return in_array( 'woocommerce/woocommerce.php', $active_plugins ) || array_key_exists( 'woocommerce/woocommerce.php', $active_plugins );
+		$plugin_filenames = array();
+
+		foreach ( $active_plugins as $plugin ) {
+
+			if ( false !== strpos( $plugin, '/' ) ) {
+
+				// normal plugin name (plugin-dir/plugin-filename.php)
+				list( , $filename ) = explode( '/', $plugin );
+
+			} else {
+
+				// no directory, just plugin file
+				$filename = $plugin;
+			}
+
+			$plugin_filenames[] = $filename;
+		}
+
+		return in_array( $plugin_name, $plugin_filenames );
 	}
 
 
@@ -210,10 +270,11 @@ class WC_SKU_Generator {
 	public static function render_outdated_wc_version_notice() {
 
 		$message = sprintf(
-			/* translators: Placeholders: %1$s <strong>, %2$s - </strong>, %3$s and %5$s - <a> tags, %4$s - </a> */
-			esc_html__( '%1$sWooCommerce Product SKU Generator is inactive.%2$s This plugin requires WooCommerce 2.5 or newer. Please %3$supdate WooCommerce%4$s or %5$srun the WooCommerce database upgrade%4$s.', 'woocommerce-product-sku-generator' ),
+			/* translators: Placeholders: %1$s <strong>, %2$s - </strong>, %3$s - version number, %4$s + %6$s - <a> tags, %5$s - </a> */
+			esc_html__( '%1$sWooCommerce Product SKU Generator is inactive.%2$s This plugin requires WooCommerce %3$s or newer. Please %4$supdate WooCommerce%5$s or %6$srun the WooCommerce database upgrade%5$s.', 'woocommerce-product-sku-generator' ),
 			'<strong>',
 			'</strong>',
+			self::MIN_WOOCOMMERCE_VERSION,
 			'<a href="' . admin_url( 'plugins.php' ) . '">',
 			'</a>',
 			'<a href="' . admin_url( 'plugins.php?do_update_woocommerce=true' ) . '">'
@@ -288,7 +349,6 @@ class WC_SKU_Generator {
 				case 'none':
 					$variation['attributes'] = str_replace( ' ', '', $variation['attributes'] );
 				break;
-
 			}
 
 			/**
@@ -357,9 +417,15 @@ class WC_SKU_Generator {
 			}
 		}
 
-		// Save the SKU for simple / external / parent products if we should
-		if ( 'never' !== get_option( 'wc_sku_generator_simple' ) )  {
-			update_post_meta( $product->get_id(), '_sku', $product_sku );
+		// save the SKU for simple / external / parent products if we should
+		if ( 'never' !== get_option( 'wc_sku_generator_simple' ) ) {
+
+			if ( self::is_wc_version_gte_3_0() ) {
+				$product->set_sku( $product_sku );
+				$product->save();
+			} else {
+				update_post_meta( $product->get_id(), '_sku', $product_sku );
+			}
 		}
 	}
 
@@ -394,7 +460,12 @@ class WC_SKU_Generator {
 			 */
 			$sku = apply_filters( 'wc_sku_generator_variation_sku_format', $sku, $parent_sku, $variation_sku );
 
-			update_post_meta( $variation_id, '_sku', $sku );
+			if ( self::is_wc_version_gte_3_0() ) {
+				$variation->set_sku( $sku );
+				$variation->save();
+			} else {
+				update_post_meta( $variation_id, '_sku', $sku );
+			}
 		}
 	}
 
@@ -424,8 +495,6 @@ class WC_SKU_Generator {
 	/**
 	 * Disable SKUs if they're being generated by the plugin.
 	 *
-	 * TODO: update the get_post_meta call to use a product CRUD method when WC 3.0 is required {BR 2017-03-21}
-	 *
 	 * @since 1.0.2
 	 */
 	public function maybe_disable_skus() {
@@ -438,13 +507,17 @@ class WC_SKU_Generator {
 			}
 			add_action( 'woocommerce_product_write_panel_tabs', 'wc_sku_generator_disable_parent_sku_input' );
 
-			//	Create a custom SKU label for Product Data
 			function wc_sku_generator_create_sku_label() {
 				global $thepostid;
 
-				$sku = get_post_meta( $thepostid, '_sku', true );
+				$sku = wc_get_product( $thepostid )->get_sku();
 
-				?><p class="form-field"><label><?php esc_html_e( 'SKU', 'woocommerce-product-sku-generator' ); ?></label><span><em><?php echo ! empty( $sku ) ? esc_html( $sku ) : esc_html__( 'Save product to generate SKU', 'woocommerce-product-sku-generator' ); ?></em></span></p><?php
+				?>
+				<p class="form-field">
+					<label><?php esc_html_e( 'SKU', 'woocommerce-product-sku-generator' ); ?></label>
+					<span><em><?php echo ! empty( $sku ) ? esc_html( $sku ) : esc_html__( 'Save product to generate SKU', 'woocommerce-product-sku-generator' ); ?></em></span>
+				</p>
+				<?php
 
 				add_filter( 'wc_product_sku_enabled', '__return_true' );
 			}
@@ -588,6 +661,8 @@ class WC_SKU_Generator {
 	/**
 	 * Manually get all variations for a product because WC core functions only
 	 *  give us "published" variations, and out of stock ones are "private". ಠ_ಠ
+	 *
+	 * TODO: use wc_get_products when WC 3.0+ is required {BR 2018-07-04}
 	 *
 	 * @since 2.3.0
 	 * @param int $product_id the ID for the parent product

@@ -2,11 +2,9 @@
 Contributors: skyverge, beka.rice
 Tags: woocommerce, sku, product sku, sku generator
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
-Requires at least: 4.1
-Tested up to: 4.8.1
-WC requires at least: 2.5
-WC tested up to: 3.2.0
-Stable Tag: 2.3.3
+Requires at least: 4.4
+Tested up to: 4.9.7
+Stable Tag: 2.3.4-dev.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +12,7 @@ Automatically generate WooCommerce product SKUs from the product / attribute slu
 
 == Description ==
 
-> **Requires: WooCommerce 2.5** or newer
+> **Requires: WooCommerce 2.6.14** or newer
 
 Automatically generate a SKU for parent / simple products, variations, or both when the product is published or updated.
 
@@ -155,6 +153,9 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 `
 
 == Changelog ==
+
+= 2018.nn.nn - version 2.3.4-dev.1 =
+ * Misc - Remove support for WooCommerce 2.5
 
 = 2017.09.10 - version 2.3.3 =
  * Tweak - POST variable SKUs when disabled to ensure plugins checking for this specifically find it
