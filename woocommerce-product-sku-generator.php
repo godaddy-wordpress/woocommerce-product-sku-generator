@@ -421,9 +421,18 @@ class WC_SKU_Generator {
 		if ( 'never' !== get_option( 'wc_sku_generator_simple' ) ) {
 
 			if ( self::is_wc_version_gte_3_0() ) {
-				$product->set_sku( $product_sku );
-				$product->save();
+
+				$product_sku = wc_product_generate_unique_sku( $product->get_id(), $product_sku );
+
+				try {
+
+					$product->set_sku( $product_sku );
+					$product->save();
+
+				} catch ( \WC_Data_Exception $exception ) {}
+
 			} else {
+
 				update_post_meta( $product->get_id(), '_sku', $product_sku );
 			}
 		}
@@ -461,9 +470,18 @@ class WC_SKU_Generator {
 			$sku = apply_filters( 'wc_sku_generator_variation_sku_format', $sku, $parent_sku, $variation_sku );
 
 			if ( self::is_wc_version_gte_3_0() ) {
-				$variation->set_sku( $sku );
-				$variation->save();
+
+				try {
+
+					$sku = wc_product_generate_unique_sku( $variation_id, $sku );
+
+					$variation->set_sku( $sku );
+					$variation->save();
+
+				} catch ( \WC_Data_Exception $exception ) {}
+
 			} else {
+
 				update_post_meta( $variation_id, '_sku', $sku );
 			}
 		}

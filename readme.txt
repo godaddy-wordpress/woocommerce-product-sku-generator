@@ -155,6 +155,8 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 == Changelog ==
 
 = 2019.nn.nn - version 2.3.5-dev.1 =
+ * Tweak - Ensure generated SKUs are unique before saving
+ * Fix - Prevent errors when saving invalid SKUs
 
 = 2018.07.17 - version 2.3.4 =
  * Misc - Remove support for WooCommerce 2.5
