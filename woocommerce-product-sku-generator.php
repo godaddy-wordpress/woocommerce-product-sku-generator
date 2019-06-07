@@ -429,7 +429,7 @@ class WC_SKU_Generator {
 					$product->set_sku( $product_sku );
 					$product->save();
 
-				} catch ( \WC_Data_Exception $exception ) {}
+				} catch ( WC_Data_Exception $exception ) {}
 
 			} else {
 
@@ -478,7 +478,7 @@ class WC_SKU_Generator {
 					$variation->set_sku( $sku );
 					$variation->save();
 
-				} catch ( \WC_Data_Exception $exception ) {}
+				} catch ( WC_Data_Exception $exception ) {}
 
 			} else {
 
