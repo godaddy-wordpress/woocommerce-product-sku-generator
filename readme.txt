@@ -3,8 +3,8 @@ Contributors: skyverge, beka.rice
 Tags: woocommerce, sku, product sku, sku generator
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 4.4
-Tested up to: 4.9.7
-Stable Tag: 2.3.5-dev.1
+Tested up to: 5.2.1
+Stable Tag: 2.3.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -154,7 +154,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 
 == Changelog ==
 
-= 2019.nn.nn - version 2.3.5-dev.1 =
+= 2019.06.12 - version 2.3.5 =
  * Tweak - Ensure generated SKUs are unique before saving
  * Fix - Prevent errors when saving invalid SKUs
 
