@@ -5,7 +5,7 @@
  * Description: Automatically generate SKUs for products using the product / variation slug and/or ID
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 2.3.5
+ * Version: 2.4.0-dev.1
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
@@ -20,27 +20,11 @@
  * @copyright Copyright (c) 2014-2019, SkyVerge, Inc.
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
  *
- * WC requires at least: 2.6.14
- * WC tested up to: 3.6.4
+ * WC requires at least: 3.0.9
+ * WC tested up to: 3.7.0
  */
 
 defined( 'ABSPATH' ) or exit;
-
-/**
- * ## Plugin Description
- *
- * Generate a SKU for products that is equal to the product slug or product ID.
- * Simple / parent products can have a SKU equal to the slug or ID.
- * Variable products can have a SKU that combines the parent SKU + variation ID or attributes.
- *
- * ## Database
- *
- * ### Options:
- * `wc_sku_generator_version` - string version number for the plugin
- * `wc_sku_generator_simple` - SKU format for simple / parent products
- * `wc_sku_generator_variation` - SKU format for product variations
- * `wc_sku_generator_attribute_spaces` - determines how spaces in attribute names are treated / replaced
- */
 
 // WC version check
 if ( ! WC_SKU_Generator::is_plugin_active('woocommerce.php' ) || version_compare( get_option( 'woocommerce_db_version' ), WC_SKU_Generator::MIN_WOOCOMMERCE_VERSION, '<' ) ) {
@@ -63,10 +47,10 @@ class WC_SKU_Generator {
 
 
 	/** plugin version number */
-	const VERSION = '2.3.5';
+	const VERSION = '2.4.0-dev.1';
 
 	/** required WooCommerce version number */
-	const MIN_WOOCOMMERCE_VERSION = '2.6.14';
+	const MIN_WOOCOMMERCE_VERSION = '3.0.9';
 
 	/** @var WC_SKU_Generator single instance of this plugin */
 	protected static $instance;
@@ -123,12 +107,14 @@ class WC_SKU_Generator {
 	 *
 	 * @since 2.0.0
 	 * @see wc_sku_generator()
-	 * @return WC_SKU_Generator
+	 * @return \WC_SKU_Generator
 	 */
 	public static function instance() {
-		if ( is_null( self::$instance ) ) {
+
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
@@ -182,45 +168,6 @@ class WC_SKU_Generator {
 	public function load_translation() {
 		// localization
 		load_plugin_textdomain( 'woocommerce-product-sku-generator', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n/languages' );
-	}
-
-
-	/**
-	 * Helper method to get the version of the currently installed WooCommerce
-	 *
-	 * @since 2.3.4
-	 *
-	 * @return string woocommerce version number or null
-	 */
-	private static function get_wc_version() {
-		return defined( 'WC_VERSION' ) && WC_VERSION ? WC_VERSION : null;
-	}
-
-
-	/**
-	 * Returns true if the installed version of WooCommerce is 3.0 or greater
-	 *
-	 * @since 2.3.4
-	 *
-	 * @return boolean true if the installed version of WooCommerce is 3.0 or greater
-	 */
-	private static function is_wc_version_gte_3_0() {
-		return self::get_wc_version() && version_compare( self::get_wc_version(), '3.0', '>=' );
-	}
-
-
-	/**
-	 * Checks if WooCommerce is active.
-	 *
-	 * @since 2.2.0
-	 * @deprecated 2.3.4
-	 *
-	 * @return bool true if WooCommerce is active, false otherwise
-	 */
-	public static function is_woocommerce_active() {
-
-		_deprecated_function( 'WC_SKU_Generator::is_woocommerce_active', '2.3.4', 'WC_SKU_Generator::is_plugin_active' );
-		return self::is_plugin_active( 'woocommerce.php' );
 	}
 
 
@@ -420,21 +367,14 @@ class WC_SKU_Generator {
 		// save the SKU for simple / external / parent products if we should
 		if ( 'never' !== get_option( 'wc_sku_generator_simple' ) ) {
 
-			if ( self::is_wc_version_gte_3_0() ) {
+            $product_sku = wc_product_generate_unique_sku( $product->get_id(), $product_sku );
 
-				$product_sku = wc_product_generate_unique_sku( $product->get_id(), $product_sku );
+            try {
 
-				try {
+                $product->set_sku( $product_sku );
+                $product->save();
 
-					$product->set_sku( $product_sku );
-					$product->save();
-
-				} catch ( WC_Data_Exception $exception ) {}
-
-			} else {
-
-				update_post_meta( $product->get_id(), '_sku', $product_sku );
-			}
+            } catch ( WC_Data_Exception $exception ) {}
 		}
 	}
 
@@ -469,21 +409,14 @@ class WC_SKU_Generator {
 			 */
 			$sku = apply_filters( 'wc_sku_generator_variation_sku_format', $sku, $parent_sku, $variation_sku );
 
-			if ( self::is_wc_version_gte_3_0() ) {
+            try {
 
-				try {
+                $sku = wc_product_generate_unique_sku( $variation_id, $sku );
 
-					$sku = wc_product_generate_unique_sku( $variation_id, $sku );
+                $variation->set_sku( $sku );
+                $variation->save();
 
-					$variation->set_sku( $sku );
-					$variation->save();
-
-				} catch ( WC_Data_Exception $exception ) {}
-
-			} else {
-
-				update_post_meta( $variation_id, '_sku', $sku );
-			}
+            } catch ( WC_Data_Exception $exception ) {}
 		}
 	}
 
@@ -842,7 +775,7 @@ class WC_SKU_Generator {
  * Returns the One True Instance of WC SKU Generator.
  *
  * @since 2.0.0
- * @return WC_SKU_Generator
+ * @return \WC_SKU_Generator
  */
 function wc_sku_generator() {
 	return WC_SKU_Generator::instance();
