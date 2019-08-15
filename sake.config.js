@@ -1,4 +1,5 @@
 module.exports = {
-	framework: false,
-	deploy: 'wp'
+	clubhouse: 14033,
+	deploy: 'wp',
+	framework: false
 }

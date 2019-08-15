@@ -2,10 +2,10 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Product SKU Generator 2.3.5\n"
+"Project-Id-Version: WooCommerce Product SKU Generator 2.4.0-dev.1\n"
 "Report-Msgid-Bugs-To: "
 "https://woocommerce.com/my-account/marketplace-ticket-form/\n"
-"POT-Creation-Date: 2019-06-12 22:42:21+00:00\n"
+"POT-Creation-Date: 2019-08-13 08:24:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,29 +13,29 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: woocommerce-product-sku-generator.php:143
+#: woocommerce-product-sku-generator.php:127
 #. translators: Placeholders: %s - plugin name
 msgid "You cannot clone instances of %s."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:154
+#: woocommerce-product-sku-generator.php:138
 #. translators: Placeholders: %s - plugin name
 msgid "You cannot unserialize instances of %s."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:168
+#: woocommerce-product-sku-generator.php:152
 msgid "Configure"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:169
+#: woocommerce-product-sku-generator.php:153
 msgid "FAQ"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:170
+#: woocommerce-product-sku-generator.php:154
 msgid "Support"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:274
+#: woocommerce-product-sku-generator.php:219
 #. translators: Placeholders: %1$s <strong>, %2$s - </strong>, %3$s - version
 #. number, %4$s + %6$s - <a> tags, %5$s - </a>
 msgid ""
@@ -44,92 +44,92 @@ msgid ""
 "WooCommerce database upgrade%5$s."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:535
+#: woocommerce-product-sku-generator.php:466
 msgid "SKU"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:536
-#: woocommerce-product-sku-generator.php:561
+#: woocommerce-product-sku-generator.php:467
+#: woocommerce-product-sku-generator.php:492
 msgid "Save product to generate SKU"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:613
+#: woocommerce-product-sku-generator.php:544
 msgid "Product SKUs"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:619
+#: woocommerce-product-sku-generator.php:550
 msgid "Generate Simple / Parent SKUs:"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:620
+#: woocommerce-product-sku-generator.php:551
 msgid ""
 "Generating simple / parent SKUs disables the SKU field while editing "
 "products."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:624
-#: woocommerce-product-sku-generator.php:640
+#: woocommerce-product-sku-generator.php:555
+#: woocommerce-product-sku-generator.php:571
 msgid "Never (let me set them)"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:625
+#: woocommerce-product-sku-generator.php:556
 msgid "Using the product slug (name)"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:626
+#: woocommerce-product-sku-generator.php:557
 msgid "Using the product ID"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:631
+#: woocommerce-product-sku-generator.php:562
 msgid ""
 "Determine how SKUs for simple, external, or parent products will be "
 "generated."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:635
+#: woocommerce-product-sku-generator.php:566
 msgid "Generate Variation SKUs:"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:636
+#: woocommerce-product-sku-generator.php:567
 msgid "Determine how SKUs for product variations will be generated."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:641
+#: woocommerce-product-sku-generator.php:572
 msgid "Using the attribute slugs (names)"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:642
+#: woocommerce-product-sku-generator.php:573
 msgid "Using the variation ID"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:651
+#: woocommerce-product-sku-generator.php:582
 msgid "Replace spaces in attributes?"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:653
+#: woocommerce-product-sku-generator.php:584
 #. translators: placeholders are <strong> tags
 msgid ""
 "%1$sWill update existing variation SKUs when product is saved if they "
 "contain spaces%2$s."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:657
+#: woocommerce-product-sku-generator.php:588
 msgid "Do not replace spaces in attribute names."
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:658
+#: woocommerce-product-sku-generator.php:589
 msgid "Replace spaces with underscores"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:659
+#: woocommerce-product-sku-generator.php:590
 msgid "Replace spaces with dashes / hyphens"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:660
+#: woocommerce-product-sku-generator.php:591
 msgid "Remove spaces from attribute names"
 msgstr ""
 
-#: woocommerce-product-sku-generator.php:665
+#: woocommerce-product-sku-generator.php:596
 msgid "Replace spaces in attribute names when used in a SKU."
 msgstr ""
 
