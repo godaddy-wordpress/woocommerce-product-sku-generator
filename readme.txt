@@ -154,7 +154,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 
 == Changelog ==
 
-= 2020.nn.nn - version 2.4.3 =
+= 2020.nn.nn - version 2.4.3-dev.1 =
  * Fix - Prevent deprecated notice in PHP 7.4 triggered by calling implode() passing arguments in the wrong order
 
 = 2020.02.05 - version 2.4.2 =
