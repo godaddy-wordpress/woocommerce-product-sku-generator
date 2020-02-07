@@ -316,7 +316,7 @@ class WC_SKU_Generator {
 			 */
 			$separator = apply_filters( 'wc_sku_generator_attribute_separator', $this->get_sku_separator() );
 
-			$variation_sku = implode( $variation['attributes'], $separator );
+			$variation_sku = implode( $separator, $variation['attributes'] );
 			$variation_sku = str_replace( 'attribute_', '', $variation_sku );
 		}
 
