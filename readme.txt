@@ -155,6 +155,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 == Changelog ==
 
 = 2020.nn.nn - version 2.4.4-dev.1 =
+ * Misc - Add support for WooCommerce 4.0
 
 = 2020.02.12 - version 2.4.3 =
  * Fix - Prevent PHP 7.4 deprecated notice while generating variation SKUs
