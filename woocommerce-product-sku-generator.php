@@ -461,12 +461,16 @@ class WC_SKU_Generator {
 
 				$sku = wc_get_product( $thepostid )->get_sku();
 
-				?>
-				<p class="form-field">
-					<label><?php esc_html_e( 'SKU', 'woocommerce-product-sku-generator' ); ?></label>
-					<span><em><?php echo ! empty( $sku ) ? esc_html( $sku ) : esc_html__( 'Save product to generate SKU', 'woocommerce-product-sku-generator' ); ?></em></span>
-				</p>
-				<?php
+				woocommerce_wp_text_input( [
+					'id'                => '_sku',
+					'value'             => ! empty( $sku ) ? esc_html( $sku ) : esc_html__( 'Save product to generate SKU', 'woocommerce-product-sku-generator' ),
+					'label'             => '<abbr title="' . esc_attr__( 'Stock Keeping Unit', 'woocommerce' ) . '">' . esc_html__( 'SKU', 'woocommerce' ) . '</abbr>',
+					'desc_tip'          => true,
+					'description'       => __( 'SKU refers to a Stock-keeping unit, a unique identifier for each distinct product and service that can be purchased.', 'woocommerce' ),
+					'custom_attributes' => [
+						'disabled' => true
+					],
+				] );
 
 				add_filter( 'wc_product_sku_enabled', '__return_true' );
 			}
