@@ -391,7 +391,7 @@ class WC_SKU_Generator {
 		$variation  = wc_get_product( $variation_id );
 		$parent_sku = $parent_sku ? $parent_sku : $parent->get_sku();
 
-		if ( $variation->is_type( 'variation' ) && ! empty( $parent_sku ) ) {
+		if ( $variation instanceof WC_Product && $variation->is_type( 'variation' ) && ! empty( $parent_sku ) ) {
 
 			$variation_data = $parent->get_available_variation( $variation );
 			$variation_sku  = $this->generate_variation_sku( $variation_data );
