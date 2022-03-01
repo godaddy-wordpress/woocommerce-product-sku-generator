@@ -73,7 +73,7 @@ class WC_SKU_Generator {
 			add_action( 'woocommerce_ajax_save_product_variations', array( $this, 'ajax_maybe_generate_variation_skus' ) );
 		}
 
-		if ( is_admin() && ! is_ajax() ) {
+		if ( is_admin() && ! wp_doing_ajax() ) {
 
 			// add settings
 			add_filter( 'woocommerce_products_general_settings', array( $this, 'add_settings' ) );
