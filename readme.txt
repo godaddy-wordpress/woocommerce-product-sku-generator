@@ -12,7 +12,7 @@ Automatically generate WooCommerce product SKUs from the product / attribute slu
 
 == Description ==
 
-> **Requires: WooCommerce 3.0.9** or newer
+> **Requires: WooCommerce 3.9.4** or newer
 
 Automatically generate a SKU for parent / simple products, variations, or both when the product is published or updated.
 
@@ -157,6 +157,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 = 2022.nn.nn - version 2.4.6-dev.1 =
  * Fix - Avoid uncaught error when saving variable products in certain environments 
  * Misc - Replace calls to deprecated `is_ajax()` with `wp_doing_ajax()`
+ * Misc - Require WooCommerce 3.9.4 or newer
 
 = 2020.05.04 - version 2.4.5 =
  * Misc - Add support for WooCommerce 4.1
