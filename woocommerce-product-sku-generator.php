@@ -9,16 +9,16 @@
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
- * Copyright: (c) 2014-2020, SkyVerge, Inc. (info@skyverge.com)
+ * Copyright: (c) 2014-2022, SkyVerge, Inc. (info@skyverge.com)
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
  * @author    SkyVerge
- * @copyright Copyright (c) 2014-2020, SkyVerge, Inc. (info@skyverge.com)
+ * @copyright Copyright (c) 2014-2022, SkyVerge, Inc. (info@skyverge.com)
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
  *
- * WC requires at least: 3.0.9
+ * WC requires at least: 3.9.4
  * WC tested up to: 4.1.0
  */
 
@@ -48,7 +48,7 @@ class WC_SKU_Generator {
 	const VERSION = '2.4.6-dev.1';
 
 	/** required WooCommerce version number */
-	const MIN_WOOCOMMERCE_VERSION = '3.0.9';
+	const MIN_WOOCOMMERCE_VERSION = '3.9.4';
 
 	/** @var WC_SKU_Generator single instance of this plugin */
 	protected static $instance;
@@ -73,7 +73,7 @@ class WC_SKU_Generator {
 			add_action( 'woocommerce_ajax_save_product_variations', array( $this, 'ajax_maybe_generate_variation_skus' ) );
 		}
 
-		if ( is_admin() && ! is_ajax() ) {
+		if ( is_admin() && ! wp_doing_ajax() ) {
 
 			// add settings
 			add_filter( 'woocommerce_products_general_settings', array( $this, 'add_settings' ) );
