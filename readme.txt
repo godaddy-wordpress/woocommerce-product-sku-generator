@@ -2,7 +2,7 @@
 Contributors: skyverge, beka.rice
 Tags: woocommerce, sku, product sku, sku generator
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
-Requires at least: 4.4
+Requires at least: 4.7
 Tested up to: 5.9.1
 Stable Tag: 2.4.6
 License: GPLv3
