@@ -4,7 +4,7 @@ Tags: woocommerce, sku, product sku, sku generator
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 4.4
 Tested up to: 5.4.1
-Stable Tag: 2.4.6
+Stable Tag: 2.4.6-dev.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -154,8 +154,9 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 
 == Changelog ==
 
-= 2020.05.04 - version 2.4.6 =
- * Misc - Tests Compatibility with WordPress 5.9.1
+= 2022.nn.nn - version 2.4.6-dev.1 =
+ * Fix - Avoid uncaught error when saving variable products in certain environments 
+ * Misc - Replace calls to deprecated `is_ajax()` with `wp_doing_ajax()`
 
 = 2020.05.04 - version 2.4.5 =
  * Misc - Add support for WooCommerce 4.1
