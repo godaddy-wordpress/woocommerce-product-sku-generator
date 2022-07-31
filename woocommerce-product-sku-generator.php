@@ -5,7 +5,7 @@
  * Description: Automatically generate SKUs for products using the product / variation slug and/or ID
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 2.4.7
+ * Version: 2.4.8-dev.1
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
@@ -45,7 +45,7 @@ class WC_SKU_Generator {
 
 
 	/** plugin version number */
-	const VERSION = '2.4.7';
+	const VERSION = '2.4.8-dev.1';
 
 	/** required WooCommerce version number */
 	const MIN_WOOCOMMERCE_VERSION = '3.9.4';
@@ -665,8 +665,8 @@ class WC_SKU_Generator {
 	public function admin_js() {
 		global $current_section;
 
-		$current_page = isset( $_GET['page'] ) ? $_GET['page'] : '';
-		$current_tab  = isset( $_GET['tab'] )  ? $_GET['tab']  : '';
+		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
+		$current_tab  = isset( $_GET['tab'] )  ? sanitize_text_field( $_GET['tab'] ) : '';
 
 		if ( 'wc-settings' === $current_page && 'products' === $current_tab && empty( $current_section ) ) {
 			wc_enqueue_js(
