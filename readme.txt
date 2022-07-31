@@ -1,10 +1,10 @@
-=== WooCommerce Product SKU Generator ===
+=== Product SKU Generator for WooCommerce ===
 Contributors: skyverge, beka.rice
 Tags: woocommerce, sku, product sku, sku generator
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
 Requires at least: 4.7
 Tested up to: 6.0
-Stable Tag: 2.4.6
+Stable Tag: 2.4.7-dev.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -42,7 +42,7 @@ This plugin provides options to:
 
 = SKUs for all product types =
 
-The WooCommerce Product SKU generator lets you determine which SKUs should be generated automatically, and whether these SKUs should use product slugs or IDs. If a SKU is generated, the input for that SKU will be disabled since you cannot adjust it.
+The Product SKU Generator for WooCommerce lets you determine which SKUs should be generated automatically, and whether these SKUs should use product slugs or IDs. If a SKU is generated, the input for that SKU will be disabled since you cannot adjust it.
 
 If you choose not to generate a SKU, then you can enter your own SKU. For example, if you only generate variation SKUs, then you can enter a parent product SKU. This will be used as the base for your generated variation SKUs, and slugs or IDs will be appended to it.
 
@@ -70,7 +70,7 @@ This action will also automatically generate the SKUs for product variations if 
 
     - upload the entire `woocommerce-product-sku-generator` folder to the `/wp-content/plugins/` directory,
     - upload the .zip file with the plugin under **Plugins &gt; Add New &gt; Upload**, or
-    - Search for "WooCommerce Product SKU Generator" under Plugins &gt; Add New
+    - Search for "Product SKU Generator for WooCommerce" under Plugins &gt; Add New
 
  3. Activate the plugin through the **Plugins** menu in WordPress
 
@@ -154,8 +154,11 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 
 == Changelog ==
 
+= 2022.nn.nn - version 2.4.7-dev.1 =
+ * Mix - Rename to Product SKU Generator for WooCommerce
+
 = 2022.03.01 - version 2.4.6 =
- * Fix - Avoid uncaught error when saving variable products in certain environments 
+ * Fix - Avoid uncaught error when saving variable products in certain environments
  * Misc - Replace calls to deprecated `is_ajax()` with `wp_doing_ajax()`
  * Misc - Require WooCommerce 3.9.4 or newer
 
