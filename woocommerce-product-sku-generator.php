@@ -1,25 +1,25 @@
 <?php
 /**
- * Plugin Name: WooCommerce Product SKU Generator
+ * Plugin Name: Product SKU Generator for WooCommerce
  * Plugin URI: http://www.skyverge.com/product/woocommerce-product-sku-generator/
  * Description: Automatically generate SKUs for products using the product / variation slug and/or ID
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 2.4.5
+ * Version: 2.4.8
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
- * Copyright: (c) 2014-2020, SkyVerge, Inc. (info@skyverge.com)
+ * Copyright: (c) 2014-2022, SkyVerge, Inc. (info@skyverge.com)
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
  * @author    SkyVerge
- * @copyright Copyright (c) 2014-2020, SkyVerge, Inc. (info@skyverge.com)
+ * @copyright Copyright (c) 2014-2022, SkyVerge, Inc. (info@skyverge.com)
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
  *
- * WC requires at least: 3.0.9
- * WC tested up to: 4.1.0
+ * WC requires at least: 3.9.4
+ * WC tested up to: 6.7.0
  */
 
 defined( 'ABSPATH' ) or exit;
@@ -45,10 +45,10 @@ class WC_SKU_Generator {
 
 
 	/** plugin version number */
-	const VERSION = '2.4.5';
+	const VERSION = '2.4.8';
 
 	/** required WooCommerce version number */
-	const MIN_WOOCOMMERCE_VERSION = '3.0.9';
+	const MIN_WOOCOMMERCE_VERSION = '3.9.4';
 
 	/** @var WC_SKU_Generator single instance of this plugin */
 	protected static $instance;
@@ -73,7 +73,7 @@ class WC_SKU_Generator {
 			add_action( 'woocommerce_ajax_save_product_variations', array( $this, 'ajax_maybe_generate_variation_skus' ) );
 		}
 
-		if ( is_admin() && ! is_ajax() ) {
+		if ( is_admin() && ! wp_doing_ajax() ) {
 
 			// add settings
 			add_filter( 'woocommerce_products_general_settings', array( $this, 'add_settings' ) );
@@ -124,7 +124,7 @@ class WC_SKU_Generator {
 	 */
 	public function __clone() {
 		/* translators: Placeholders: %s - plugin name */
-		_doing_it_wrong( __FUNCTION__, sprintf( esc_html__( 'You cannot clone instances of %s.', 'woocommerce-product-sku-generator' ), 'WooCommerce Product SKU Generator' ), '2.2.0' );
+		_doing_it_wrong( __FUNCTION__, sprintf( esc_html__( 'You cannot clone instances of %s.', 'woocommerce-product-sku-generator' ), 'Product SKU Generator for WooCommerce' ), '2.2.0' );
 	}
 
 
@@ -135,7 +135,7 @@ class WC_SKU_Generator {
 	 */
 	public function __wakeup() {
 		/* translators: Placeholders: %s - plugin name */
-		_doing_it_wrong( __FUNCTION__, sprintf( esc_html__( 'You cannot unserialize instances of %s.', 'woocommerce-product-sku-generator' ), 'WooCommerce Product SKU Generator' ), '2.2.0' );
+		_doing_it_wrong( __FUNCTION__, sprintf( esc_html__( 'You cannot unserialize instances of %s.', 'woocommerce-product-sku-generator' ), 'Product SKU Generator for WooCommerce' ), '2.2.0' );
 	}
 
 
@@ -216,7 +216,7 @@ class WC_SKU_Generator {
 
 		$message = sprintf(
 			/* translators: Placeholders: %1$s <strong>, %2$s - </strong>, %3$s - version number, %4$s + %6$s - <a> tags, %5$s - </a> */
-			esc_html__( '%1$sWooCommerce Product SKU Generator is inactive.%2$s This plugin requires WooCommerce %3$s or newer. Please %4$supdate WooCommerce%5$s or %6$srun the WooCommerce database upgrade%5$s.', 'woocommerce-product-sku-generator' ),
+			esc_html__( '%1$sProduct SKU Generator for WooCommerce is inactive.%2$s This plugin requires WooCommerce %3$s or newer. Please %4$supdate WooCommerce%5$s or %6$srun the WooCommerce database upgrade%5$s.', 'woocommerce-product-sku-generator' ),
 			'<strong>',
 			'</strong>',
 			self::MIN_WOOCOMMERCE_VERSION,
@@ -316,6 +316,15 @@ class WC_SKU_Generator {
 			 */
 			$separator = apply_filters( 'wc_sku_generator_attribute_separator', $this->get_sku_separator() );
 
+            /**
+			 * xxx: Filters attributes that are not used in the SKU generation.
+			 *
+			 * @since 2.4.8
+			 * @param array $variation the attributes slug
+			 */
+            // 
+            $variation = apply_filters('wc_sku_generator_unset_attributes', $variation);
+
 			$variation_sku = implode( $separator, $variation['attributes'] );
 			$variation_sku = str_replace( 'attribute_', '', $variation_sku );
 		}
@@ -391,7 +400,7 @@ class WC_SKU_Generator {
 		$variation  = wc_get_product( $variation_id );
 		$parent_sku = $parent_sku ? $parent_sku : $parent->get_sku();
 
-		if ( $variation->is_type( 'variation' ) && ! empty( $parent_sku ) ) {
+		if ( $variation instanceof WC_Product && $variation->is_type( 'variation' ) && ! empty( $parent_sku ) ) {
 
 			$variation_data = $parent->get_available_variation( $variation );
 			$variation_sku  = $this->generate_variation_sku( $variation_data );
@@ -665,8 +674,8 @@ class WC_SKU_Generator {
 	public function admin_js() {
 		global $current_section;
 
-		$current_page = isset( $_GET['page'] ) ? $_GET['page'] : '';
-		$current_tab  = isset( $_GET['tab'] )  ? $_GET['tab']  : '';
+		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
+		$current_tab  = isset( $_GET['tab'] )  ? sanitize_text_field( $_GET['tab'] ) : '';
 
 		if ( 'wc-settings' === $current_page && 'products' === $current_tab && empty( $current_section ) ) {
 			wc_enqueue_js(
