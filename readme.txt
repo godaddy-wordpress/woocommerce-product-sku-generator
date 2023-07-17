@@ -158,6 +158,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 = 2023.nn.nn - version 2.5.0-dev.1 =
  * Misc - Add compatibility for WooCommerce High Performance Order Storage (HPOS)
  * Misc - Require PHP 7.4+ and WordPress 5.6+
+ * Dev - Add `wc_sku_generator_variation_attributes` filter to allow modification of variation attributes used for SKU generation
 
 = 2022.07.31 - version 2.4.8 =
  * Fix - Sanitize input

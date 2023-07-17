@@ -320,9 +320,11 @@ class WC_SKU_Generator {
 			 * Attributes in SKUs _could_ be sorted inconsistently in rare cases.
 			 * Return true here to ensure they're always sorted consistently.
 			 *
-			 * @since 2.0.0
-			 * @param bool $sort_atts true to force attribute sorting
 			 * @see https://github.com/skyverge/woocommerce-product-sku-generator/pull/2
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param bool $sort_atts true to force attribute sorting
 			 */
 			if ( apply_filters( 'wc_sku_generator_force_attribute_sorting', false ) ) {
 				ksort( $variation['attributes'] );
@@ -332,11 +334,21 @@ class WC_SKU_Generator {
 			 * Filters the separator used between variation attributes.
 			 *
 			 * @since 2.0.0
+			 *
 			 * @param string $separator the separator character
 			 */
 			$separator = apply_filters( 'wc_sku_generator_attribute_separator', $this->get_sku_separator() );
 
-			$variation_sku = implode( $separator, $variation['attributes'] );
+			/**
+			 * Filters attributes that are used in generating the variation's SKU.
+			 *
+			 * @since 2.5.0-dev.1
+			 *
+			 * @param array $variation_attributes variation attributes before they are imploded for SKU generation
+			 */
+			$variation_attributes = apply_filters('wc_sku_generator_variation_attributes', $variation['attributes'] );
+
+			$variation_sku = implode( $separator, $variation_attributes );
 			$variation_sku = str_replace( 'attribute_', '', $variation_sku );
 		}
 
@@ -349,6 +361,7 @@ class WC_SKU_Generator {
 		 * Filters the generated variation portion of the SKU.
 		 *
 		 * @since 2.0.0
+		 *
 		 * @param string $variation_sku the generated variation portion of the SKU
 		 * @param array $variation product variation data
 		 */
