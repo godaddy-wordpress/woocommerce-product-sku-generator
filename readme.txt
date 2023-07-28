@@ -2,9 +2,10 @@
 Contributors: skyverge, beka.rice
 Tags: woocommerce, sku, product sku, sku generator
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+SKU+Generator
-Requires at least: 4.7
+Requires at least: 5.6
 Tested up to: 6.0.1
-Stable Tag: 2.4.8
+Requires PHP: 7.4
+Stable Tag: 2.5.0-dev.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -64,7 +65,7 @@ This action will also automatically generate the SKUs for product variations if 
 
 > **NOTE that** any time a product is updated, its SKU will be generated, so this may override old SKUs if you update products. This plugin is meant for complete SKU automation, or you can selectively enable / disable it as needed.
 
- 1. Be sure you're running WooCommerce 2.5+ in your shop.
+ 1. Be sure you're running WooCommerce 3.9+ in your shop.
 
  2. You can:
 
@@ -153,6 +154,11 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 `
 
 == Changelog ==
+
+= 2023.nn.nn - version 2.5.0-dev.1 =
+ * Misc - Add compatibility for WooCommerce High Performance Order Storage (HPOS)
+ * Misc - Require PHP 7.4+ and WordPress 5.6+
+ * Dev - Add `wc_sku_generator_variation_attributes` filter to allow modification of variation attributes used for SKU generation
 
 = 2022.07.31 - version 2.4.8 =
  * Fix - Sanitize input

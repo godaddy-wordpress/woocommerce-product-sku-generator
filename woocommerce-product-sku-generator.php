@@ -5,17 +5,17 @@
  * Description: Automatically generate SKUs for products using the product / variation slug and/or ID
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 2.4.8
+ * Version: 2.5.0-dev.1
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
- * Copyright: (c) 2014-2022, SkyVerge, Inc. (info@skyverge.com)
+ * Copyright: (c) 2014-2023, SkyVerge, Inc. (info@skyverge.com)
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
  * @author    SkyVerge
- * @copyright Copyright (c) 2014-2022, SkyVerge, Inc. (info@skyverge.com)
+ * @copyright Copyright (c) 2014-2023, SkyVerge, Inc. (info@skyverge.com)
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
  *
  * WC requires at least: 3.9.4
@@ -45,7 +45,7 @@ class WC_SKU_Generator {
 
 
 	/** plugin version number */
-	const VERSION = '2.4.8';
+	const VERSION = '2.5.0-dev.1';
 
 	/** required WooCommerce version number */
 	const MIN_WOOCOMMERCE_VERSION = '3.9.4';
@@ -93,6 +93,26 @@ class WC_SKU_Generator {
 
 			// run every time
 			$this->install();
+		}
+
+		// handle HPOS compatibility
+		add_action( 'before_woocommerce_init', [ $this, 'handle_hpos_compatibility' ] );
+	}
+
+
+	/**
+	 * Declares HPOS compatibility.
+	 *
+	 * @since 2.5.0-dev.1
+	 *
+	 * @internal
+	 *
+	 * @return void
+	 */
+	public function handle_hpos_compatibility()
+	{
+		if ( class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', plugin_basename( __FILE__ ), true );
 		}
 	}
 
@@ -300,9 +320,11 @@ class WC_SKU_Generator {
 			 * Attributes in SKUs _could_ be sorted inconsistently in rare cases.
 			 * Return true here to ensure they're always sorted consistently.
 			 *
-			 * @since 2.0.0
-			 * @param bool $sort_atts true to force attribute sorting
 			 * @see https://github.com/skyverge/woocommerce-product-sku-generator/pull/2
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param bool $sort_atts true to force attribute sorting
 			 */
 			if ( apply_filters( 'wc_sku_generator_force_attribute_sorting', false ) ) {
 				ksort( $variation['attributes'] );
@@ -312,11 +334,21 @@ class WC_SKU_Generator {
 			 * Filters the separator used between variation attributes.
 			 *
 			 * @since 2.0.0
+			 *
 			 * @param string $separator the separator character
 			 */
 			$separator = apply_filters( 'wc_sku_generator_attribute_separator', $this->get_sku_separator() );
 
-			$variation_sku = implode( $separator, $variation['attributes'] );
+			/**
+			 * Filters attributes that are used in generating the variation's SKU.
+			 *
+			 * @since 2.5.0-dev.1
+			 *
+			 * @param array $variation_attributes variation attributes before they are imploded for SKU generation
+			 */
+			$variation_attributes = apply_filters('wc_sku_generator_variation_attributes', $variation['attributes'] );
+
+			$variation_sku = implode( $separator, $variation_attributes );
 			$variation_sku = str_replace( 'attribute_', '', $variation_sku );
 		}
 
@@ -329,6 +361,7 @@ class WC_SKU_Generator {
 		 * Filters the generated variation portion of the SKU.
 		 *
 		 * @since 2.0.0
+		 *
 		 * @param string $variation_sku the generated variation portion of the SKU
 		 * @param array $variation product variation data
 		 */
@@ -365,14 +398,14 @@ class WC_SKU_Generator {
 		// save the SKU for simple / external / parent products if we should
 		if ( 'never' !== get_option( 'wc_sku_generator_simple' ) ) {
 
-            $product_sku = wc_product_generate_unique_sku( $product->get_id(), $product_sku );
+			$product_sku = wc_product_generate_unique_sku( $product->get_id(), $product_sku );
 
-            try {
+			try {
 
-                $product->set_sku( $product_sku );
-                $product->save();
+				$product->set_sku( $product_sku );
+				$product->save();
 
-            } catch ( WC_Data_Exception $exception ) {}
+			} catch ( WC_Data_Exception $exception ) {}
 		}
 	}
 
@@ -407,14 +440,14 @@ class WC_SKU_Generator {
 			 */
 			$sku = apply_filters( 'wc_sku_generator_variation_sku_format', $sku, $parent_sku, $variation_sku );
 
-            try {
+			try {
 
-                $sku = wc_product_generate_unique_sku( $variation_id, $sku );
+				$sku = wc_product_generate_unique_sku( $variation_id, $sku );
 
-                $variation->set_sku( $sku );
-                $variation->save();
+				$variation->set_sku( $sku );
+				$variation->save();
 
-            } catch ( WC_Data_Exception $exception ) {}
+			} catch ( WC_Data_Exception $exception ) {}
 		}
 	}
 
