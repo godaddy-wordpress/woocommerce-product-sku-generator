@@ -77,7 +77,7 @@ class WC_SKU_Generator {
 
 			// add settings
 			add_filter( 'woocommerce_products_general_settings', array( $this, 'add_settings' ) );
-			add_action( 'admin_print_scripts',                   array( $this, 'admin_js' ) );
+			add_action( 'admin_print_footer_scripts',            array( $this, 'admin_js' ), 30 );
 
 			// add plugin links
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_plugin_links' ) );
@@ -707,21 +707,22 @@ class WC_SKU_Generator {
 		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
 		$current_tab  = isset( $_GET['tab'] )  ? sanitize_text_field( $_GET['tab'] ) : '';
 
-		if ( 'wc-settings' === $current_page && 'products' === $current_tab && empty( $current_section ) ) {
-			wc_enqueue_js(
-				"jQuery(document).ready(function() {
-
-					jQuery( 'select#wc_sku_generator_variation' ).change( function() {
-						if ( jQuery( this ).val() === 'slugs' ) {
-							jQuery( this ).closest('tr').next('tr').show();
-						} else {
-							jQuery( this ).closest('tr').next('tr').hide();
-						}
-					}).change();
-
-				});"
-			);
+		if ( 'wc-settings' !== $current_page || 'products' !== $current_tab || ! empty( $current_section ) ) {
+			return;
 		}
+		?>
+		<script>
+			jQuery( function ( $ ) {
+				$( 'select#wc_sku_generator_variation' ).on( 'change', function () {
+					if ( $( this ).val() === 'slugs' ) {
+						$( this ).closest( 'tr' ).next( 'tr' ).show();
+					} else {
+						$( this ).closest( 'tr' ).next( 'tr' ).hide();
+					}
+				} ).trigger( 'change' );
+			} );
+		</script>
+		<?php
 	}
 
 
