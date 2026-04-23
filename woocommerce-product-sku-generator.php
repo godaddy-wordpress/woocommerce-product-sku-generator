@@ -5,17 +5,17 @@
  * Description: Automatically generate SKUs for products using the product / variation slug and/or ID
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 2.5.0
+ * Version: 2.5.1-dev.1
  * Text Domain: woocommerce-product-sku-generator
  * Domain Path: /i18n/languages/
  *
- * Copyright: (c) 2014-2023, SkyVerge, Inc. (info@skyverge.com)
+ * Copyright: (c) 2014-2026, SkyVerge, Inc. (info@skyverge.com)
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
  * @author    SkyVerge
- * @copyright Copyright (c) 2014-2023, SkyVerge, Inc. (info@skyverge.com)
+ * @copyright Copyright (c) 2014-2026, SkyVerge, Inc. (info@skyverge.com)
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
  *
  * WC requires at least: 3.9.4
@@ -45,7 +45,7 @@ class WC_SKU_Generator {
 
 
 	/** plugin version number */
-	const VERSION = '2.5.0';
+	const VERSION = '2.5.1-dev.1';
 
 	/** required WooCommerce version number */
 	const MIN_WOOCOMMERCE_VERSION = '3.9.4';
@@ -77,7 +77,7 @@ class WC_SKU_Generator {
 
 			// add settings
 			add_filter( 'woocommerce_products_general_settings', array( $this, 'add_settings' ) );
-			add_action( 'admin_print_scripts',                   array( $this, 'admin_js' ) );
+			add_action( 'admin_print_footer_scripts',            array( $this, 'admin_js' ), 30 );
 
 			// add plugin links
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_plugin_links' ) );
@@ -92,7 +92,8 @@ class WC_SKU_Generator {
 			add_action( 'init', array( $this, 'maybe_disable_skus' ) );
 
 			// run every time
-			$this->install();
+			// this runs on init to ensure we don't use translation functions  until they're allowed (init or later)
+			add_action( 'init', [$this, 'install'] );
 		}
 
 		// handle HPOS compatibility
@@ -521,19 +522,25 @@ class WC_SKU_Generator {
 		// only load this script on variable product pages
 		if ( 'never' !== get_option( 'wc_sku_generator_variation' ) && $product instanceof WC_Product && $product->is_type( 'variable' ) ) {
 
-			wc_enqueue_js("
-				var sku = '" . esc_js( __( 'Save product to generate SKU', 'woocommerce-product-sku-generator' ) ) . "';
-				window.disable_variation_sku = function() {
-					$( '.woocommerce_variation .form-field input[name^=\"variable_sku\"]' ).prop( 'readonly', true );
-					$( '.woocommerce_variation .form-field input[name^=\"variable_sku\"]' ).each( function() {
-						if ( $( this ).val().length == 0 ) {
-							$( this ).val( sku );
-						}
-					});
-				}
+			$script_handle = 'woocommerce-product-sku-generator-disable-variation-sku';
+			wp_register_script( $script_handle, false, ['jquery'], WC_SKU_Generator::VERSION, true );
+			wp_enqueue_script( $script_handle );
 
-				$( '#woocommerce-product-data' ).on( 'woocommerce_variations_loaded', disable_variation_sku );
-				$( '#woocommerce-product-data' ).on( 'woocommerce_variations_added', disable_variation_sku );
+			wp_add_inline_script($script_handle, "
+				jQuery(function($) {
+					var sku = '" . esc_js( __( 'Save product to generate SKU', 'woocommerce-product-sku-generator' ) ) . "';
+					window.disable_variation_sku = function() {
+						$( '.woocommerce_variation .form-field input[name^=\"variable_sku\"]' ).prop( 'readonly', true );
+						$( '.woocommerce_variation .form-field input[name^=\"variable_sku\"]' ).each( function() {
+							if ( $( this ).val().length == 0 ) {
+								$( this ).val( sku );
+							}
+						});
+					}
+
+					$( '#woocommerce-product-data' ).on( 'woocommerce_variations_loaded', disable_variation_sku );
+					$( '#woocommerce-product-data' ).on( 'woocommerce_variations_added', disable_variation_sku );
+				});
 			");
 		}
 	}
@@ -701,21 +708,22 @@ class WC_SKU_Generator {
 		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
 		$current_tab  = isset( $_GET['tab'] )  ? sanitize_text_field( $_GET['tab'] ) : '';
 
-		if ( 'wc-settings' === $current_page && 'products' === $current_tab && empty( $current_section ) ) {
-			wc_enqueue_js(
-				"jQuery(document).ready(function() {
-
-					jQuery( 'select#wc_sku_generator_variation' ).change( function() {
-						if ( jQuery( this ).val() === 'slugs' ) {
-							jQuery( this ).closest('tr').next('tr').show();
-						} else {
-							jQuery( this ).closest('tr').next('tr').hide();
-						}
-					}).change();
-
-				});"
-			);
+		if ( 'wc-settings' !== $current_page || 'products' !== $current_tab || ! empty( $current_section ) ) {
+			return;
 		}
+		?>
+		<script>
+			jQuery( function ( $ ) {
+				$( 'select#wc_sku_generator_variation' ).on( 'change', function () {
+					if ( $( this ).val() === 'slugs' ) {
+						$( this ).closest( 'tr' ).next( 'tr' ).show();
+					} else {
+						$( this ).closest( 'tr' ).next( 'tr' ).hide();
+					}
+				} ).trigger( 'change' );
+			} );
+		</script>
+		<?php
 	}
 
 
@@ -726,8 +734,9 @@ class WC_SKU_Generator {
 	 * Run every time.  Used since the activation hook is not executed when updating a plugin.
 	 *
 	 * @since 2.0.0
+	 * @internal
 	 */
-	private function install() {
+	public function install() {
 
 		// get current version to check for upgrade
 		$installed_version = get_option( 'wc_sku_generator_version' );
