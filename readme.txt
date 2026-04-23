@@ -156,6 +156,7 @@ add_filter( 'wc_sku_generator_force_attribute_sorting', '__return_true' );
 == Changelog ==
 
 = 2026.nn.nn - version 2.5.1-dev.1 =
+ * Fix - Address `wc_enqueue_js()` deprecation warnings
 
 = 2023.07.28 - version 2.5.0 =
  * Misc - Add compatibility for WooCommerce High Performance Order Storage (HPOS)
