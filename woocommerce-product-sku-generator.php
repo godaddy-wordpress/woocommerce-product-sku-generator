@@ -92,7 +92,8 @@ class WC_SKU_Generator {
 			add_action( 'init', array( $this, 'maybe_disable_skus' ) );
 
 			// run every time
-			$this->install();
+			// this runs on init to ensure we don't use translation functions  until they're allowed (init or later)
+			add_action( 'init', [$this, 'install'] );
 		}
 
 		// handle HPOS compatibility
@@ -733,8 +734,9 @@ class WC_SKU_Generator {
 	 * Run every time.  Used since the activation hook is not executed when updating a plugin.
 	 *
 	 * @since 2.0.0
+	 * @internal
 	 */
-	private function install() {
+	public function install() {
 
 		// get current version to check for upgrade
 		$installed_version = get_option( 'wc_sku_generator_version' );
